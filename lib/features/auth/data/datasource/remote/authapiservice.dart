@@ -11,6 +11,10 @@ class AuthApiService {
       final response = await _dio.post('/auth/login', data: loginModel.toMap());
 
       final dataJson = response.data['data'];
-    } catch (e) {}
+
+      return UserModel.fromMap(dataJson);
+    } on DioException catch (e) {
+      throw e.message.toString();
+    }
   }
 }
