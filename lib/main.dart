@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quickchance_app/features/login/presentation/pages/login_page.dart';
+import 'package:quickchance_app/features/auth/presentation/pages/login_page.dart';
 
 void main() {
   runApp(const MyApp());

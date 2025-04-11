@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quickchance_app/features/login/presentation/widgets/myInput.dart';
+import 'package:quickchance_app/features/auth/presentation/widgets/myInput.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
