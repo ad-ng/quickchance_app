@@ -4,11 +4,13 @@ class MyInput extends StatefulWidget {
   final String hintText;
   final Icon suffixIcon;
   final bool isPassword;
+  final TextEditingController textEditingController;
   const MyInput({
     super.key,
     required this.hintText,
     required this.suffixIcon,
     required this.isPassword,
+    required this.textEditingController,
   });
 
   @override
@@ -24,6 +26,7 @@ class _MyInputState extends State<MyInput> {
       child: TextField(
         obscureText: hidePassword,
         cursorColor: Colors.white,
+        controller: widget.textEditingController,
         style: TextStyle(color: Colors.white),
         decoration: InputDecoration(
           filled: true,

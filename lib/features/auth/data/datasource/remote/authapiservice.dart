@@ -17,9 +17,9 @@ class AuthApiService {
 
       final dataJson = response.data['data'];
 
-      await TokenStore.setToken(response.data['token']);
+      TokenStore.setToken(response.data['token']);
 
-      await UserPreferences().saveLocalUser(UserModel.fromJson(dataJson));
+      UserPreferences().saveLocalUser(UserModel.fromJson(dataJson));
 
       return UserModel.fromMap(dataJson);
     } on DioException catch (e) {

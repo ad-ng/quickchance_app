@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quickchance_app/features/auth/data/repository/auth_repo_impl.dart';
+import 'package:quickchance_app/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/login_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
+  final _authRepo = AuthRepoImpl();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Quick Chance',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    return MultiBlocProvider(
+      providers: [BlocProvider(create: (context) => AuthCubit(_authRepo))],
+      child: MaterialApp.router(
+        title: 'Quick Chance',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        ),
+        routerConfig: _router,
       ),
-      routerConfig: _router,
     );
   }
 }
