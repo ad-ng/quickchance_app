@@ -5,6 +5,7 @@ import 'package:quickchance_app/conf/dioservice.dart';
 import 'package:quickchance_app/features/auth/data/repository/auth_repo_impl.dart';
 import 'package:quickchance_app/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/login_page.dart';
+import 'package:quickchance_app/features/auth/presentation/pages/register_page.dart';
 import 'package:quickchance_app/features/home/presentation/pages/home_page.dart';
 
 void main() async {
@@ -42,6 +43,11 @@ final GoRouter _router = GoRouter(
       name: 'login',
       path: '/login',
       builder: (context, state) => LoginPage(),
+    ),
+    GoRoute(
+      name: 'register',
+      path: '/register',
+      builder: (context, state) => RegisterPage(),
     ),
     GoRoute(
       name: 'homePage',
