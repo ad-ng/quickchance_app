@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:quickchance_app/features/auth/data/model/login_model.dart';
 import 'package:quickchance_app/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:quickchance_app/features/auth/presentation/widgets/myInput.dart';
@@ -14,6 +15,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController email = new TextEditingController();
   TextEditingController password = new TextEditingController();
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
@@ -25,15 +27,16 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         }
+        if (state is AuthLoading) {
+          setState(() {
+            isLoading = !isLoading;
+          });
+        }
         if (state is AuthSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                state.response.username!,
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-          );
+          context.goNamed('homePage');
+          setState(() {
+            isLoading = !isLoading;
+          });
         }
       },
       child: Scaffold(
@@ -87,19 +90,28 @@ class _LoginPageState extends State<LoginPage> {
               ),
               GestureDetector(
                 onTap: () async {
-                  if (email.text.isEmpty && password.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'email or password can\'t be empty',
-                          style: TextStyle(fontSize: 20),
+                  setState(() {
+                    isLoading = !isLoading;
+                  });
+                  if (isLoading) {
+                    if (email.text.isEmpty && password.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'email or password can\'t be empty',
+                            style: TextStyle(fontSize: 20),
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                      setState(() {
+                        isLoading = !isLoading;
+                      });
+                    } else {
+                      BlocProvider.of<AuthCubit>(context).login(
+                        LoginModel(email: email.text, password: password.text),
+                      );
+                    }
                   }
-                  BlocProvider.of<AuthCubit>(context).login(
-                    LoginModel(email: email.text, password: password.text),
-                  );
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
@@ -110,14 +122,17 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Center(
-                    child: Text(
-                      'Log in',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    child:
+                        (isLoading)
+                            ? CircularProgressIndicator.adaptive()
+                            : Text(
+                              'Log in',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                   ),
                 ),
               ),
