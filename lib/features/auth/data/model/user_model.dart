@@ -1,78 +1,69 @@
-import 'dart:convert';
-
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 class UserModel {
-  int? id;
-  String? username;
+  int id;
   String? fullname;
-  String? gender;
+  String? username;
   String? email;
-  bool? isVerified;
-  String? password;
-  String? location;
-  List<String>? preferences;
+  String? gender;
+  String? address;
   String? dob;
-  String? role;
   String? phoneNumber;
-  String? createdAt;
+  //  String? profileImg;
+  // String? coverImg;
+  String? role;
+  bool isVerified;
+  String createdAt;
+
   UserModel({
-    this.id,
-    this.username,
+    required this.id,
     this.fullname,
-    this.gender,
+    this.username,
     this.email,
-    this.isVerified,
-    this.password,
-    this.location,
-    this.preferences,
+    this.gender,
+    this.address,
     this.dob,
-    this.role,
     this.phoneNumber,
-    this.createdAt,
+    // this.profileImg,
+    // this.coverImg,
+    this.role,
+    required this.isVerified,
+    required this.createdAt,
   });
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'username': username,
-      'fullname': fullname,
-      'gender': gender,
-      'email': email,
-      'isVerified': isVerified,
-      'password': password,
-      'location': location,
-      'preferences': preferences,
-      'dob': dob,
-      'role': role,
-      'phoneNumber': phoneNumber,
-      'createdAt': createdAt,
-    };
-  }
-
-  factory UserModel.fromMap(Map<String, dynamic> map) {
+  // Convert JSON to UserModel, with null checking and handling default values
+  factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: map['id'] != null ? map['id'] as int : null,
-      username: map['username'] != null ? map['username'] as String : null,
-      fullname: map['fullname'] != null ? map['fullname'] as String : null,
-      gender: map['gender'] != null ? map['gender'] as String : null,
-      email: map['email'] != null ? map['email'] as String : null,
-      isVerified: map['isVerified'] != null ? map['isVerified'] as bool : null,
-      password: map['password'] != null ? map['password'] as String : null,
-      location: map['location'] != null ? map['location'] as String : null,
-      dob: map['dob'] != null ? map['dob'] as String : null,
-      role: map['role'] != null ? map['role'] as String : null,
-      phoneNumber:
-          map['phoneNumber'] != null ? map['phoneNumber'] as String : null,
-      createdAt: map['createdAt'] != null ? map['createdAt'] as String : null,
-      preferences:
-          map['preferences'] != null
-              ? List<String>.from(map['preferences'] as List)
-              : null,
+      id: json['id'],
+      fullname: json['fullname'] ?? 'Unknown', // Default value if null
+      username: json['username'] ?? 'Unknown',
+      email: json['email'] ?? 'unknown@example.com',
+      gender: json['gender'] ?? 'Not Specified',
+      address: json['address'] ?? 'Not Provided',
+      dob: json['dob'] ?? 'Unknown',
+      phoneNumber: json['phoneNumber'] ?? 'Unknown',
+      // profileImg: json['profileImg'] ?? 'default_profile.png',
+      // coverImg: json['coverImg'] ?? 'default_cover.png',
+      role: json['role'] ?? 'user', // Default role
+      isVerified: json['isVerified'] ?? false, // Default value for boolean
+      createdAt: json['createdAt'] ?? 'Unknown',
     );
   }
 
-  String toJson() => json.encode(toMap());
-
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  // Convert UserModel to JSON, ensuring no null values are passed
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'fullname': fullname ?? 'Unknown',
+      'username': username ?? 'Unknown',
+      'email': email ?? 'unknown@example.com',
+      'gender': gender ?? 'Not Specified',
+      'address': address ?? 'Not Provided',
+      'dob': dob ?? 'Unknown',
+      'phoneNumber': phoneNumber ?? 'Unknown',
+      // 'profileImg': profileImg ?? 'default_profile.png',
+      //'coverImg': coverImg ?? 'default_cover.png',
+      'role': role ?? 'user',
+      'isVerified': isVerified,
+      'createdAt': createdAt,
+    };
+  }
 }

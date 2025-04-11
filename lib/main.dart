@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quickchance_app/conf/dioservice.dart';
 import 'package:quickchance_app/features/auth/data/repository/auth_repo_impl.dart';
 import 'package:quickchance_app/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/login_page.dart';
+import 'package:quickchance_app/features/home/presentation/pages/home_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  DioService.instance.setup();
   runApp(MyApp());
 }
 
@@ -22,7 +26,7 @@ class MyApp extends StatelessWidget {
         title: 'Quick Chance',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         ),
         routerConfig: _router,
       ),
@@ -36,8 +40,13 @@ final GoRouter _router = GoRouter(
     GoRoute(name: '/', path: '/', builder: (context, state) => LoginPage()),
     GoRoute(
       name: 'login',
-      path: 'login',
+      path: '/login',
       builder: (context, state) => LoginPage(),
+    ),
+    GoRoute(
+      name: 'homePage',
+      path: '/homePage',
+      builder: (context, state) => HomePage(),
     ),
   ],
 );
