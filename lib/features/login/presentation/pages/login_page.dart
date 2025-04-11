@@ -14,8 +14,9 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(height: 100),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.2),
           Center(child: Image.asset('././lib/images/logo.png', height: 60)),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
           Text(
             'Hello Again !',
             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30),
@@ -24,7 +25,69 @@ class _LoginPageState extends State<LoginPage> {
             'log into your account',
             style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w400),
           ),
-          MyInput(),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+
+          MyInput(
+            hintText: 'Enter Email',
+            suffixIcon: Icon(Icons.email_outlined, color: Colors.white),
+            isPassword: false,
+          ),
+
+          MyInput(
+            hintText: 'Enter Password',
+            suffixIcon: Icon(Icons.lock_outline_rounded, color: Colors.white),
+            isPassword: true,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 18, top: 10),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'Forgot Password?',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.blue,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: 50,
+            margin: EdgeInsets.only(left: 15, right: 15, top: 20),
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Center(
+              child: Text(
+                'Log in',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 50),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Don\'t Have An Account?',
+                style: TextStyle(fontWeight: FontWeight.w500),
+              ),
+              SizedBox(width: 10),
+              Text(
+                'Register',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.blue,
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
