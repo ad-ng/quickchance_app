@@ -12,14 +12,17 @@ class UserPreferences {
     await prefs.setString('user', userJson); // Save the JSON string
   }
 
+  // Get user from SharedPreferences
   Future<UserModel?> getLocalUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userJson = prefs.getString('user');
 
     if (userJson != null) {
-      return UserModel.fromJson(userJson); // Fixed line
+      return UserModel.fromJson(
+        json.decode(userJson),
+      ); // Convert JSON string back to UserModel
     }
-    return null;
+    return null; // Return null if no user data found
   }
 
   // Remove the user from SharedPreferences
