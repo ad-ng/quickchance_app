@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:quickchance_app/conf/errorinterceptor.dart';
 
 class DioService {
   DioService._privateConstructor();
@@ -16,5 +17,7 @@ class DioService {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
+
+    dio.interceptors.add(ErrorInterceptor());
   }
 }
