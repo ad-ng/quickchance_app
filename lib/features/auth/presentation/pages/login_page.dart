@@ -13,9 +13,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController email = new TextEditingController();
-  TextEditingController password = new TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
   bool isLoading = false;
+
+  @override
+  void dispose() {
+    email.dispose();
+    password.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
@@ -26,6 +34,9 @@ class _LoginPageState extends State<LoginPage> {
               content: Text(state.message!, style: TextStyle(fontSize: 20)),
             ),
           );
+            setState(() {
+            isLoading = false;
+          });
         }
         if (state is AuthLoading) {
           setState(() {
@@ -146,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(width: 10),
                   GestureDetector(
-                    onTap: () => context.pushNamed('register'),
+                    onTap: () => context.goNamed('register'),
                     child: Text(
                       'Register',
                       style: TextStyle(
