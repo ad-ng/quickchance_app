@@ -50,7 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
           });
         }
         if (state is AuthSuccess) {
-          context.goNamed('homePage');
+          context.goNamed('landingPage');
           setState(() {
             isLoading = false;
           });
