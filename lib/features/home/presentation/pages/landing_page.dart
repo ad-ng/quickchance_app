@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:quickchance_app/features/home/presentation/pages/homePage.dart';
+import 'package:quickchance_app/features/profile/presentation/pages/profilePage.dart';
+import 'package:quickchance_app/features/saved/presentation/pages/savedPage.dart';
+import 'package:quickchance_app/features/search/presentation/pages/searchPage.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -7,14 +11,14 @@ class LandingPage extends StatefulWidget {
   State<LandingPage> createState() => _LandingPageState();
 }
 
-const pages = ['HOME', 'SEARCH', 'SAVED', 'PROFILE'];
+const pages = [Homepage(), SearchPage(), SavedPage(), ProfilePage()];
 
 class _LandingPageState extends State<LandingPage> {
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text(pages[currentIndex])),
+      body: pages[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: (value) {
