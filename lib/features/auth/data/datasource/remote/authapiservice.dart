@@ -54,7 +54,7 @@ class AuthApiService {
       return UserModel.fromJson(dataJson); // Use fromMap instead of fromJson
     } on DioException catch (e) {
       // Handle Dio errors
-      throw _handleError(e);
+      throw e.message!;
     } catch (e) {
       // Catch other errors
       return Future.error('Something went wrong: $e');
