@@ -35,13 +35,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
         if (state is AuthLoading) {
           setState(() {
-            isLoading = !isLoading;
+            isLoading = true;
           });
         }
         if (state is AuthSuccess) {
           context.goNamed('homePage');
           setState(() {
-            isLoading = !isLoading;
+            isLoading = false;
           });
         }
       },
@@ -92,7 +92,7 @@ class _RegisterPageState extends State<RegisterPage> {
             GestureDetector(
               onTap: () async {
                 setState(() {
-                  isLoading = !isLoading;
+                  isLoading = true;
                 });
                 if (isLoading) {
                   if (email.text.isEmpty ||
@@ -108,7 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     );
                     setState(() {
-                      isLoading = !isLoading;
+                      isLoading = false;
                     });
                   } else {
                     BlocProvider.of<AuthCubit>(context).register(
