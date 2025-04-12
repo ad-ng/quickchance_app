@@ -145,11 +145,14 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(fontWeight: FontWeight.w500),
                   ),
                   SizedBox(width: 10),
-                  Text(
-                    'Register',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.blue,
+                  GestureDetector(
+                    onTap: () => context.pushNamed('register'),
+                    child: Text(
+                      'Register',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: Colors.blue,
+                      ),
                     ),
                   ),
                 ],
