@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickchance_app/features/auth/data/model/login_model.dart';
+import 'package:quickchance_app/features/auth/data/model/register_model.dart';
 import 'package:quickchance_app/features/auth/data/model/user_model.dart';
 import 'package:quickchance_app/features/auth/domain/repository/auth_repo.dart';
 
@@ -13,6 +14,19 @@ class AuthCubit extends Cubit<AuthState> {
 
     try {
       final response = await _authRepo.signin(loginModel);
+      print('fetching user');
+      emit(AuthSuccess(response));
+    } catch (e) {
+      print(e);
+      emit(AuthError(e.toString()));
+    }
+  }
+
+  Future<void> register(RegisterModel registerModel) async {
+    emit(AuthLoading());
+
+    try {
+      final response = await _authRepo.signup(registerModel);
       print('fetching user');
       emit(AuthSuccess(response));
     } catch (e) {
