@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
               content: Text(state.message!, style: TextStyle(fontSize: 20)),
             ),
           );
-            setState(() {
+          setState(() {
             isLoading = false;
           });
         }
@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
           });
         }
         if (state is AuthSuccess) {
-          context.goNamed('homePage');
+          context.goNamed('landingPage');
           setState(() {
             isLoading = false;
           });

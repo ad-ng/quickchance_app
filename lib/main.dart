@@ -6,7 +6,7 @@ import 'package:quickchance_app/features/auth/data/repository/auth_repo_impl.dar
 import 'package:quickchance_app/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/login_page.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/register_page.dart';
-import 'package:quickchance_app/features/home/presentation/pages/home_page.dart';
+import 'package:quickchance_app/features/home/presentation/pages/landing_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,9 +50,9 @@ final GoRouter _router = GoRouter(
       builder: (context, state) => RegisterPage(),
     ),
     GoRoute(
-      name: 'homePage',
-      path: '/homePage',
-      builder: (context, state) => HomePage(),
+      name: 'landingPage',
+      path: '/landingPage',
+      builder: (context, state) => LandingPage(),
     ),
   ],
 );
