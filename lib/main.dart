@@ -7,6 +7,7 @@ import 'package:quickchance_app/features/auth/presentation/bloc/auth_cubit.dart'
 import 'package:quickchance_app/features/auth/presentation/pages/login_page.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/register_page.dart';
 import 'package:quickchance_app/features/home/presentation/pages/landing_page.dart';
+import 'package:quickchance_app/features/profile/presentation/pages/changePassword.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,6 +54,11 @@ final GoRouter _router = GoRouter(
       name: 'landingPage',
       path: '/landingPage',
       builder: (context, state) => LandingPage(),
+    ),
+    GoRoute(
+      name: 'changePassword',
+      path: '/changePassword',
+      builder: (context, state) => ChangePassword(),
     ),
   ],
 );

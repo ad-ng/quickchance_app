@@ -92,6 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           SizedBox(height: 30),
           ListTile(
+            onTap: () => context.pushNamed('changePassword'),
             leading: Icon(Icons.lock),
             title: Text(
               'Change Password',
