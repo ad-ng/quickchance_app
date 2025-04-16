@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:quickchance_app/features/auth/data/datasource/local/userpreferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -14,12 +16,14 @@ class _ProfilePageState extends State<ProfilePage> {
     return SafeArea(
       child: Column(
         children: [
+          SizedBox(height: 15),
           Center(
             child: Text(
               'My Profile',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
+          SizedBox(height: 30),
           FutureBuilder(
             future: UserPreferences().getLocalUser(),
             builder: (context, snapshot) {
@@ -86,7 +90,59 @@ class _ProfilePageState extends State<ProfilePage> {
               return SizedBox.shrink();
             },
           ),
-          Row(children: [Column(children: [])]),
+          SizedBox(height: 30),
+          ListTile(
+            leading: Icon(Icons.lock),
+            title: Text(
+              'Change Password',
+              style: TextStyle(color: Colors.grey),
+            ),
+            trailing: Icon(Icons.chevron_right_rounded),
+          ),
+          ListTile(
+            leading: Icon(Icons.notifications_none_rounded),
+            title: Text('Notification', style: TextStyle(color: Colors.grey)),
+            trailing: Icon(Icons.chevron_right_rounded),
+          ),
+          ListTile(
+            leading: Icon(Icons.sunny),
+            title: Text('Display', style: TextStyle(color: Colors.grey)),
+            trailing: Icon(Icons.chevron_right_rounded),
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Setting', style: TextStyle(color: Colors.grey)),
+            trailing: Icon(Icons.chevron_right_rounded),
+          ),
+          ListTile(
+            leading: Icon(Icons.info),
+            title: Text('About Us', style: TextStyle(color: Colors.grey)),
+            trailing: Icon(Icons.chevron_right_rounded),
+          ),
+          ListTile(
+            leading: Icon(Icons.info_outline_rounded),
+            title: Text(
+              'Terms & Policies',
+              style: TextStyle(color: Colors.grey),
+            ),
+            trailing: Icon(Icons.chevron_right_rounded),
+          ),
+          ListTile(
+            leading: Icon(Icons.question_mark_outlined),
+            title: Text('Help & Support', style: TextStyle(color: Colors.grey)),
+            trailing: Icon(Icons.chevron_right_rounded),
+          ),
+          ListTile(
+            onTap: () async {
+              final SharedPreferences prefs =
+                  await SharedPreferences.getInstance();
+              await prefs.clear();
+              context.goNamed('login');
+            },
+            leading: Icon(Icons.logout_rounded, color: Colors.red[300]),
+            title: Text('Log Out', style: TextStyle(color: Colors.grey)),
+            trailing: Icon(Icons.chevron_right_rounded),
+          ),
         ],
       ),
     );
