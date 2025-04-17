@@ -11,12 +11,13 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  bool isDarkMode = false;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 15),
+          SizedBox(height: 65),
           Center(
             child: Text(
               'My Profile',
@@ -103,7 +104,14 @@ class _ProfilePageState extends State<ProfilePage> {
           ListTile(
             leading: Icon(Icons.notifications_none_rounded),
             title: Text('Notification', style: TextStyle(color: Colors.grey)),
-            trailing: Icon(Icons.chevron_right_rounded),
+            trailing: Switch(
+              value: isDarkMode,
+              onChanged: (value) {
+                setState(() {
+                  isDarkMode = value;
+                });
+              },
+            ),
           ),
           ListTile(
             leading: Icon(Icons.sunny),
