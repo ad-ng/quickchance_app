@@ -93,7 +93,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     (isLoading)
                         ? CircularProgressIndicator.adaptive()
                         : Text(
-                          'Log in',
+                          'Update',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
