@@ -12,19 +12,12 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool isDarkMode = false;
+  bool isNotification = false;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 65),
-          Center(
-            child: Text(
-              'My Profile',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(height: 30),
           FutureBuilder(
             future: UserPreferences().getLocalUser(),
             builder: (context, snapshot) {
@@ -105,6 +98,18 @@ class _ProfilePageState extends State<ProfilePage> {
             leading: Icon(Icons.notifications_none_rounded),
             title: Text('Notification', style: TextStyle(color: Colors.grey)),
             trailing: Switch(
+              value: isNotification,
+              onChanged: (value) {
+                setState(() {
+                  isNotification = value;
+                });
+              },
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.sunny),
+            title: Text('Dark Mode', style: TextStyle(color: Colors.grey)),
+            trailing: Switch(
               value: isDarkMode,
               onChanged: (value) {
                 setState(() {
@@ -112,11 +117,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 });
               },
             ),
-          ),
-          ListTile(
-            leading: Icon(Icons.sunny),
-            title: Text('Display', style: TextStyle(color: Colors.grey)),
-            trailing: Icon(Icons.chevron_right_rounded),
           ),
           ListTile(
             leading: Icon(Icons.settings),
