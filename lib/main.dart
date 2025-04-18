@@ -1,10 +1,8 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quickchance_app/conf/dioservice.dart';
+import 'package:quickchance_app/features/auth/data/datasource/local/tokenstore.dart';
 import 'package:quickchance_app/features/auth/data/repository/auth_repo_impl.dart';
 import 'package:quickchance_app/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/login_page.dart';
@@ -12,17 +10,12 @@ import 'package:quickchance_app/features/auth/presentation/pages/register_page.d
 import 'package:quickchance_app/features/home/presentation/pages/landing_page.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/changePassword.dart';
 
+var tokenValue;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DioService.instance.setup();
-  ErrorWidget.builder = (FlutterErrorDetails details) {
-    debugPrint(details.exceptionAsString());
-    return Center(child: Text('error: ${details.exception}'));
-  };
-  if (Platform.isIOS) {
-    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-  }
-  print('starting');
+  tokenValue = await TokenStore.getToken();
+
   runApp(MyApp());
 }
 
@@ -50,7 +43,13 @@ class MyApp extends StatelessWidget {
 final GoRouter _router = GoRouter(
   initialLocation: '/',
   routes: <RouteBase>[
-    GoRoute(name: '/', path: '/', builder: (context, state) => LoginPage()),
+    GoRoute(
+      name: '/',
+      path: '/',
+      builder:
+          (context, state) =>
+              (tokenValue == null) ? LoginPage() : LandingPage(),
+    ),
     GoRoute(
       name: 'login',
       path: '/login',
