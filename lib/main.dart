@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quickchance_app/conf/dioservice.dart';
+import 'package:quickchance_app/core/dark_mode.dart';
+import 'package:quickchance_app/core/light_mode.dart';
+import 'package:quickchance_app/core/theme_cubit.dart';
 import 'package:quickchance_app/features/auth/data/datasource/local/tokenstore.dart';
 import 'package:quickchance_app/features/auth/data/repository/auth_repo_impl.dart';
 import 'package:quickchance_app/features/auth/presentation/bloc/auth_cubit.dart';
@@ -27,14 +30,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => AuthCubit(_authRepo))],
-      child: MaterialApp.router(
-        title: 'Quick Chance',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-        ),
-        routerConfig: _router,
+      providers: [
+        BlocProvider(create: (context) => AuthCubit(_authRepo)),
+        BlocProvider(create: (context) => ThemeCubit()),
+      ],
+      child: BlocBuilder<ThemeCubit, ThemeModeState>(
+        builder: (context, themeMode) {
+          return MaterialApp.router(
+            title: 'Quick Chance',
+            debugShowCheckedModeBanner: false,
+            theme: lightMode,
+            darkTheme: darkMode,
+            themeMode:
+                themeMode == ThemeModeState.light
+                    ? ThemeMode.light
+                    : ThemeMode.dark,
+            routerConfig: _router,
+          );
+        },
       ),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quickchance_app/core/theme_cubit.dart';
 import 'package:quickchance_app/features/auth/data/datasource/local/userpreferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -112,6 +114,7 @@ class _ProfilePageState extends State<ProfilePage> {
             trailing: Switch(
               value: isDarkMode,
               onChanged: (value) {
+                BlocProvider.of<ThemeCubit>(context).toggleTheme();
                 setState(() {
                   isDarkMode = value;
                 });
