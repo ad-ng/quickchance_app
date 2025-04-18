@@ -12,6 +12,7 @@ import 'package:quickchance_app/features/auth/presentation/pages/login_page.dart
 import 'package:quickchance_app/features/auth/presentation/pages/register_page.dart';
 import 'package:quickchance_app/features/home/presentation/pages/landing_page.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/changePassword.dart';
+import 'package:quickchance_app/features/profile/presentation/pages/editProfile.dart';
 
 var tokenValue;
 void main() async {
@@ -82,6 +83,11 @@ final GoRouter _router = GoRouter(
       name: 'changePassword',
       path: '/changePassword',
       builder: (context, state) => ChangePassword(),
+    ),
+    GoRoute(
+      name: 'editProfile',
+      path: '/editProfile',
+      builder: (context, state) => EditProfile(),
     ),
   ],
 );

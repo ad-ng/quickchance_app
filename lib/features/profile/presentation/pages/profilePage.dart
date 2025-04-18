@@ -59,21 +59,24 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 15,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.blue[400],
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Text(
-                              'Edit Profile',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
+                          GestureDetector(
+                            onTap: () => context.pushNamed('editProfile'),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 10,
+                                horizontal: 15,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.blue[400],
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                'Edit Profile',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
