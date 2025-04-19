@@ -113,7 +113,33 @@ class _OppCardState extends State<OppCard> {
               Row(
                 children: [
                   SizedBox(width: 10),
-                  Icon(Icons.favorite_border_rounded, color: Colors.grey),
+
+                  FutureBuilder(
+                    future: OpportunityApiService().checkLikes(
+                      widget.opps.userId,
+                    ),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Icon(
+                          Icons.favorite_border_rounded,
+                          color: Colors.grey,
+                        );
+                      }
+                      if (snapshot.hasData) {
+                        bool isLiked = snapshot.data!;
+                        return (isLiked)
+                            ? Icon(
+                              Icons.favorite_border_rounded,
+                              color: Colors.red,
+                            )
+                            : Icon(
+                              Icons.favorite_border_rounded,
+                              color: Colors.grey,
+                            );
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
                   SizedBox(width: 5),
                   FutureBuilder(
                     future: OpportunityApiService().fetchLikes(
@@ -129,11 +155,27 @@ class _OppCardState extends State<OppCard> {
                   SizedBox(width: 15),
                   Icon(Icons.comment, color: Colors.grey),
                   SizedBox(width: 5),
-                  Text('30', style: TextStyle(fontWeight: FontWeight.w400)),
+                  FutureBuilder(
+                    future: OpportunityApiService().totalLikes(widget.opps.id!),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text('${snapshot.data}');
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
                   SizedBox(width: 15),
                   Icon(Icons.bookmark_border_outlined, color: Colors.grey),
                   SizedBox(width: 5),
-                  Text('2', style: TextStyle(fontWeight: FontWeight.w400)),
+                  FutureBuilder(
+                    future: OpportunityApiService().totalSaved(widget.opps.id!),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text('${snapshot.data}');
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
                 ],
               ),
             ],
