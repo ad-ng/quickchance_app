@@ -50,7 +50,8 @@ class _HomepageState extends State<Homepage> {
               return Expanded(
                 child: ListView.builder(
                   itemCount: state.response.length,
-                  itemBuilder: (context, index) => OppCard(),
+                  itemBuilder:
+                      (context, index) => OppCard(opps: state.response[index]),
                 ),
               );
             }

@@ -25,4 +25,16 @@ class OpportunityApiService {
       return Future.error('Something went wrong: $e');
     }
   }
+
+  Future fetchLikes(int oppId) async {
+    try {
+      final response = await _dio.get('/like/${oppId}');
+      final int dataJson = response.data['data']['TotalLikes'];
+      return dataJson;
+    } on DioException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return Future.error('Something went wrong: $e');
+    }
+  }
 }
