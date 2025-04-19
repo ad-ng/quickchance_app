@@ -89,7 +89,57 @@ class _ProfilePageState extends State<ProfilePage> {
               return SizedBox.shrink();
             },
           ),
-          SizedBox(height: 30),
+          FutureBuilder(
+            future: UserPreferences().getLocalUser(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator.adaptive());
+              }
+              if (snapshot.connectionState == ConnectionState.done) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    child: Column(
+                      children: [
+                        ListTile(
+                          leading: Icon(Icons.location_on_outlined),
+                          title: Text('Location'),
+                          trailing: Text('Kigali - Rwanda'),
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.email_outlined),
+                          title: Text('Email'),
+                          trailing: Text(snapshot.data!.email!),
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.phone),
+                          title: Text('Phone Number'),
+                          trailing: Text(snapshot.data!.phoneNumber!),
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.man_outlined),
+                          title: Text('Gender'),
+                          trailing: Text(snapshot.data!.gender!),
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.person),
+                          title: Text('Role'),
+                          trailing: Text(snapshot.data!.role!),
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.baby_changing_station),
+                          title: Text('Born'),
+                          trailing: Text(snapshot.data!.dob!.substring(0, 10)),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+              return SizedBox.shrink();
+            },
+          ),
+
           ListTile(
             onTap: () => context.pushNamed('changePassword'),
             leading: Icon(Icons.lock),
