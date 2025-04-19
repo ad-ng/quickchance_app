@@ -18,6 +18,23 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Quick Chance'),
+        actions: [
+          Badge(
+            label: Text('10'),
+            child: Container(
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey, width: 2),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(Icons.notifications_none, size: 30),
+            ),
+          ),
+          SizedBox(width: 25),
+        ],
+      ),
       body: pages[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
