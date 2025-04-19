@@ -57,7 +57,6 @@ class OpportunityModel {
   }
 
   String toJson() => json.encode(toMap());
-
-  factory OpportunityModel.fromJson(String source) =>
-      OpportunityModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory OpportunityModel.fromJson(Map<String, dynamic> json) =>
+      OpportunityModel.fromMap(json);
 }

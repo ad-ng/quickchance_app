@@ -32,12 +32,12 @@ class _HomepageState extends State<Homepage> {
             CategoryCard(catName: 'competition'),
           ],
         ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: 2,
-            itemBuilder: (context, index) => OppCard(),
-          ),
-        ),
+        // Expanded(
+        //   child: ListView.builder(
+        //     itemCount: 2,
+        //     itemBuilder: (context, index) => OppCard(),
+        //   ),
+        // ),
         BlocBuilder<OpportunityCubit, OpportunityState>(
           builder: (context, state) {
             if (state is OpportunityLoading) {
@@ -47,9 +47,9 @@ class _HomepageState extends State<Homepage> {
               return Center(child: Text(state.error));
             }
             if (state is OpportunitySuccess) {
-              Expanded(
+              return Expanded(
                 child: ListView.builder(
-                  itemCount: 2,
+                  itemCount: state.response.length,
                   itemBuilder: (context, index) => OppCard(),
                 ),
               );
