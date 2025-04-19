@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:quickchance_app/conf/errorinterceptor.dart';
+import 'package:quickchance_app/conf/headerInterceptor.dart';
 
 class DioService {
   DioService._privateConstructor();
@@ -19,5 +20,6 @@ class DioService {
     };
 
     dio.interceptors.add(ErrorInterceptor());
+    dio.interceptors.add(HeaderInterceptor());
   }
 }
