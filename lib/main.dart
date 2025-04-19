@@ -10,6 +10,8 @@ import 'package:quickchance_app/features/auth/data/repository/auth_repo_impl.dar
 import 'package:quickchance_app/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/login_page.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/register_page.dart';
+import 'package:quickchance_app/features/home/data/repositories/opps_repo_impl.dart';
+import 'package:quickchance_app/features/home/presentation/bloc/opportunity_cubit.dart';
 import 'package:quickchance_app/features/home/presentation/pages/landing_page.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/changePassword.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/editProfile.dart';
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
 
   final _authRepo = AuthRepoImpl();
+  final oppsRepo = OppsRepoImpl();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -35,6 +38,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit(_authRepo)),
         BlocProvider(create: (context) => ThemeCubit()),
+        BlocProvider(create: (context) => OpportunityCubit(oppsRepo)),
       ],
       child: BlocBuilder<ThemeCubit, ThemeModeState>(
         builder: (context, themeMode) {
