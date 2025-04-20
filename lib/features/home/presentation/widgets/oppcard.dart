@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:quickchance_app/features/home/data/datasources/remote/opportunityApiService.dart';
+import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class OppCard extends StatefulWidget {
-  const OppCard({super.key});
+  final OpportunityModel opps;
+  const OppCard({super.key, required this.opps});
 
   @override
   State<OppCard> createState() => _OppCardState();
@@ -18,6 +22,8 @@ class _OppCardState extends State<OppCard> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,11 +41,11 @@ class _OppCardState extends State<OppCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'MYCULTURE',
+                        widget.opps.user.fullname!,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        '19 Posts',
+                        timeago.format(DateTime.parse(widget.opps.updatedAt!)),
                         style: TextStyle(
                           color: Colors.grey,
                           fontWeight: FontWeight.bold,
@@ -49,30 +55,57 @@ class _OppCardState extends State<OppCard> {
                   ),
                 ],
               ),
-              Column(
-                children: [
-                  Text('2h ago', style: TextStyle(fontWeight: FontWeight.w500)),
-                ],
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  widget.opps.status,
+                  style: TextStyle(fontWeight: FontWeight.w500),
+                ),
               ),
             ],
           ),
-
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 200,
-            margin: EdgeInsets.only(top: 10),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.network(
-                'https://assets.entrepreneur.com/content/3x2/2000/1709054067-ent24-marchapril-FastestGrowing-Intro.jpg',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
           SizedBox(height: 8),
           Text(
-            style: TextStyle(fontWeight: FontWeight.w500),
-            'remaining essentially unchanged. It was with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishin',
+            widget.opps.title,
+            style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
+          ),
+          Text(widget.opps.description),
+          Row(
+            children: [
+              Text(
+                'Deadline:   ',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(
+                widget.opps.deadline!.substring(0, 10),
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                'Location:   ',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(
+                widget.opps.location!,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                'Category:   ',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text('tech', style: TextStyle(fontWeight: FontWeight.bold)),
+            ],
           ),
           SizedBox(height: 10),
           Row(
@@ -80,17 +113,69 @@ class _OppCardState extends State<OppCard> {
               Row(
                 children: [
                   SizedBox(width: 10),
-                  Icon(Icons.favorite_border_rounded, color: Colors.grey),
+
+                  FutureBuilder(
+                    future: OpportunityApiService().checkLikes(
+                      widget.opps.userId,
+                    ),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Icon(
+                          Icons.favorite_border_rounded,
+                          color: Colors.grey,
+                        );
+                      }
+                      if (snapshot.hasData) {
+                        bool isLiked = snapshot.data!;
+                        return (isLiked)
+                            ? Icon(
+                              Icons.favorite_border_rounded,
+                              color: Colors.red,
+                            )
+                            : Icon(
+                              Icons.favorite_border_rounded,
+                              color: Colors.grey,
+                            );
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
                   SizedBox(width: 5),
-                  Text('290', style: TextStyle(fontWeight: FontWeight.w400)),
+                  FutureBuilder(
+                    future: OpportunityApiService().fetchLikes(
+                      widget.opps.userId,
+                    ),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text('${snapshot.data}');
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
                   SizedBox(width: 15),
                   Icon(Icons.comment, color: Colors.grey),
                   SizedBox(width: 5),
-                  Text('30', style: TextStyle(fontWeight: FontWeight.w400)),
+                  FutureBuilder(
+                    future: OpportunityApiService().totalLikes(widget.opps.id!),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text('${snapshot.data}');
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
                   SizedBox(width: 15),
                   Icon(Icons.bookmark_border_outlined, color: Colors.grey),
                   SizedBox(width: 5),
-                  Text('2', style: TextStyle(fontWeight: FontWeight.w400)),
+                  FutureBuilder(
+                    future: OpportunityApiService().totalSaved(widget.opps.id!),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text('${snapshot.data}');
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
                 ],
               ),
             ],

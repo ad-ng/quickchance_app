@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickchance_app/features/home/presentation/bloc/opportunity_cubit.dart';
 import 'package:quickchance_app/features/home/presentation/widgets/categoryCard.dart';
 import 'package:quickchance_app/features/home/presentation/widgets/oppcard.dart';
 
@@ -11,27 +13,15 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   @override
+  void initState() {
+    BlocProvider.of<OpportunityCubit>(context).fetchAllOpps();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          height: 100,
-          width: MediaQuery.of(context).size.width,
-          child: ListView.builder(
-            itemCount: 7,
-            scrollDirection: Axis.horizontal,
-            itemBuilder:
-                (context, index) => Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Image.network(
-                      'https://images.vexels.com/content/145908/preview/male-avatar-maker-2a7919.png',
-                    ),
-                  ),
-                ),
-          ),
-        ),
         SizedBox(height: 5),
         Wrap(
           children: [
@@ -42,11 +32,31 @@ class _HomepageState extends State<Homepage> {
             CategoryCard(catName: 'competition'),
           ],
         ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: 2,
-            itemBuilder: (context, index) => OppCard(),
-          ),
+        // Expanded(
+        //   child: ListView.builder(
+        //     itemCount: 2,
+        //     itemBuilder: (context, index) => OppCard(),
+        //   ),
+        // ),
+        BlocBuilder<OpportunityCubit, OpportunityState>(
+          builder: (context, state) {
+            if (state is OpportunityLoading) {
+              return Center(child: CircularProgressIndicator.adaptive());
+            }
+            if (state is OpportunityError) {
+              return Center(child: Text(state.error));
+            }
+            if (state is OpportunitySuccess) {
+              return Expanded(
+                child: ListView.builder(
+                  itemCount: state.response.length,
+                  itemBuilder:
+                      (context, index) => OppCard(opps: state.response[index]),
+                ),
+              );
+            }
+            return SizedBox.shrink();
+          },
         ),
       ],
     );
