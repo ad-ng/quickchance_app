@@ -147,6 +147,29 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
+              Container(
+                margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.black),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('././lib/images/google.png', height: 35),
+                    SizedBox(width: 20),
+                    Text(
+                      'Log in with Google',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(height: 50),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
