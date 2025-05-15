@@ -34,7 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(80),
                         child: Image.network(
-                          'https://static1.cbrimages.com/wordpress/wp-content/uploads/2024/12/15-best-character-arcs-in-avatar-the-last-airbender-ranked.jpg',
+                          snapshot.data!.profileImg!,
                           width: MediaQuery.of(context).size.width * 0.35,
                           height: MediaQuery.of(context).size.width * 0.35,
                           fit: BoxFit.cover,
