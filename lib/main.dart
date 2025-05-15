@@ -8,6 +8,7 @@ import 'package:quickchance_app/core/theme_cubit.dart';
 import 'package:quickchance_app/features/auth/data/datasource/local/tokenstore.dart';
 import 'package:quickchance_app/features/auth/data/repository/auth_repo_impl.dart';
 import 'package:quickchance_app/features/auth/presentation/bloc/auth_cubit.dart';
+import 'package:quickchance_app/features/auth/presentation/pages/forgot_password.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/login_page.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/register_page.dart';
 import 'package:quickchance_app/features/home/data/repositories/opps_repo_impl.dart';
@@ -98,6 +99,11 @@ final GoRouter _router = GoRouter(
       name: 'settingsPage',
       path: '/settingsPage',
       builder: (context, state) => SettingsPage(),
+    ),
+    GoRoute(
+      name: 'forgotPassword',
+      path: '/forgotPassword',
+      builder: (context, state) => ForgotPassword(),
     ),
   ],
 );

@@ -74,6 +74,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   fontWeight: FontWeight.w400,
                 ),
               ),
+              SizedBox(height: 10),
               MyInput(
                 hintText: 'username',
                 suffixIcon: Icon(Icons.person, color: Colors.white),
