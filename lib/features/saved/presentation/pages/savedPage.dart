@@ -10,6 +10,6 @@ class SavedPage extends StatefulWidget {
 class _SavedPageState extends State<SavedPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('S A V E D'));
+    return Expanded(child: Column(children: []));
   }
 }
