@@ -7,7 +7,7 @@ class UserModel {
   String? address;
   String? dob;
   String? phoneNumber;
-  //  String? profileImg;
+  String? profileImg;
   // String? coverImg;
   String? role;
   bool isVerified;
@@ -22,7 +22,7 @@ class UserModel {
     this.address,
     this.dob,
     this.phoneNumber,
-    // this.profileImg,
+    this.profileImg,
     // this.coverImg,
     this.role,
     required this.isVerified,
@@ -40,7 +40,9 @@ class UserModel {
       address: json['address'] ?? 'Not Provided',
       dob: json['dob'] ?? '1993-02-03T02:43:41.238Z',
       phoneNumber: json['phoneNumber'] ?? 'Unknown',
-      // profileImg: json['profileImg'] ?? 'default_profile.png',
+      profileImg:
+          json['profileImg'] ??
+          'https://static1.cbrimages.com/wordpress/wp-content/uploads/2024/12/15-best-character-arcs-in-avatar-the-last-airbender-ranked.jpg',
       // coverImg: json['coverImg'] ?? 'default_cover.png',
       role: json['role'] ?? 'user', // Default role
       isVerified: json['isVerified'] ?? false, // Default value for boolean
@@ -59,7 +61,9 @@ class UserModel {
       'address': address ?? 'Not Provided',
       'dob': dob ?? '1993-02-03T02:43:41.238Z',
       'phoneNumber': phoneNumber ?? 'Unknown',
-      // 'profileImg': profileImg ?? 'default_profile.png',
+      'profileImg':
+          profileImg ??
+          'https://static1.cbrimages.com/wordpress/wp-content/uploads/2024/12/15-best-character-arcs-in-avatar-the-last-airbender-ranked.jpg',
       //'coverImg': coverImg ?? 'default_cover.png',
       'role': role ?? 'user',
       'isVerified': isVerified,
