@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quickchance_app/features/auth/data/datasource/remote/authapiservice.dart';
 import 'package:quickchance_app/features/auth/data/model/login_model.dart';
 import 'package:quickchance_app/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:quickchance_app/features/auth/presentation/widgets/myInput.dart';
@@ -152,7 +151,11 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               GestureDetector(
-                onTap: () async => await AuthApiService().signInWithGoogle(),
+                onTap:
+                    () async =>
+                        await BlocProvider.of<AuthCubit>(
+                          context,
+                        ).googleService(),
                 child: Container(
                   margin: EdgeInsets.only(top: 20, left: 20, right: 20),
                   width: MediaQuery.of(context).size.width,

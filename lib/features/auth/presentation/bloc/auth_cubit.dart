@@ -27,10 +27,19 @@ class AuthCubit extends Cubit<AuthState> {
 
     try {
       final response = await _authRepo.signup(registerModel);
-      print('fetching user');
       emit(AuthSuccess(response));
     } catch (e) {
       print(e);
+      emit(AuthError(e.toString()));
+    }
+  }
+
+  Future googleService() async {
+    emit(AuthLoading());
+    try {
+      final response = await _authRepo.googleService();
+      emit(AuthSuccess(response));
+    } catch (e) {
       emit(AuthError(e.toString()));
     }
   }

@@ -14,4 +14,9 @@ class AuthRepoImpl implements AuthRepo {
   Future<UserModel> signup(RegisterModel registerModel) async {
     return await AuthApiService().register(registerModel);
   }
+
+  @override
+  Future googleService() async {
+    return await AuthApiService().signInWithGoogle();
+  }
 }
