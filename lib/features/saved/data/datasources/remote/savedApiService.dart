@@ -1,17 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:quickchance_app/conf/dioservice.dart';
-import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
+import 'package:quickchance_app/features/saved/data/models/saved_opp_model.dart';
 
 class SavedApiService {
   final Dio _dio = DioService.instance.dio;
 
-  Future<List<OpportunityModel>> fetchSavedOpps() async {
+  Future<List<SavedOppModel>> fetchSavedOpps() async {
     try {
       final response = await _dio.get('/saved/me');
+
       final dataJson = response.data['data'];
 
       if (dataJson != null && dataJson is List) {
-        return dataJson.map((json) => OpportunityModel.fromJson(json)).toList();
+        return dataJson.map((json) => SavedOppModel.fromMap(json)).toList();
       } else {
         throw Exception(
           'Expected a list of properties but got ${dataJson.runtimeType}',
