@@ -49,4 +49,15 @@ class SavedApiService {
       return Future.error('something went wrong: $e');
     }
   }
+
+  Future unSavingOpp(int oppId) async {
+    try {
+      final response = await _dio.delete('/saved/$oppId');
+      return response.data['data'];
+    } on DioException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return Future.error('something went wrong: $e');
+    }
+  }
 }
