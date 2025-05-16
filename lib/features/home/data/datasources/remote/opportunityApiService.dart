@@ -84,6 +84,18 @@ class OpportunityApiService {
     }
   }
 
+  Future<int> totalComments(int oppId) async {
+    try {
+      final response = await _dio.get('/comment/count/$oppId');
+      final int dataJson = response.data['data']['count'];
+      return dataJson;
+    } on DioException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return Future.error('Something went wrong: $e');
+    }
+  }
+
   Future<int> totalSaved(int oppId) async {
     try {
       final response = await _dio.get('/saved/${oppId}');

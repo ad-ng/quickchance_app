@@ -129,7 +129,9 @@ class _OppCardState extends State<OppCard> {
                   Icon(Icons.comment, color: Colors.grey),
                   SizedBox(width: 5),
                   FutureBuilder(
-                    future: OpportunityApiService().totalLikes(widget.opps.id!),
+                    future: OpportunityApiService().totalComments(
+                      widget.opps.id!,
+                    ),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return Text('${snapshot.data}');
