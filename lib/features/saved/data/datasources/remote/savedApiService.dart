@@ -26,4 +26,16 @@ class SavedApiService {
       return Future.error('Something went wrong: $e');
     }
   }
+
+  Future<bool> checkIsSaved(int oppId) async {
+    try {
+      final response = await _dio.get('/saved/check/${oppId}');
+      bool isSaved = response.data['data']['isSaved'];
+      return isSaved;
+    } on DioException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return Future.error('something went wrong: $e');
+    }
+  }
 }

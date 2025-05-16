@@ -165,7 +165,13 @@ class _OppCardState extends State<OppCard> {
                     },
                   ),
                   SizedBox(width: 15),
-                  Icon(Icons.bookmark_border_outlined, color: Colors.grey),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Icon(
+                      Icons.bookmark_border_outlined,
+                      color: Colors.grey,
+                    ),
+                  ),
                   SizedBox(width: 5),
                   FutureBuilder(
                     future: OpportunityApiService().totalSaved(widget.opps.id!),
