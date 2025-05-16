@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quickchance_app/features/home/data/datasources/remote/opportunityApiService.dart';
 import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
+import 'package:quickchance_app/features/saved/data/datasources/remote/savedApiService.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class OppCard extends StatefulWidget {
@@ -165,7 +166,20 @@ class _OppCardState extends State<OppCard> {
                     },
                   ),
                   SizedBox(width: 15),
-                  Icon(Icons.bookmark_border_outlined, color: Colors.grey),
+                  GestureDetector(
+                    onTap: () async {
+                      bool isOppSaved = await SavedApiService().checkIsSaved(
+                        widget.opps.id!,
+                      );
+                      isOppSaved
+                          ? await SavedApiService().unSavingOpp(widget.opps.id!)
+                          : await SavedApiService().saveOpp(widget.opps.id!);
+                    },
+                    child: Icon(
+                      Icons.bookmark_border_outlined,
+                      color:  Colors.grey,
+                    ),
+                  ),
                   SizedBox(width: 5),
                   FutureBuilder(
                     future: OpportunityApiService().totalSaved(widget.opps.id!),
