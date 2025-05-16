@@ -171,11 +171,13 @@ class _OppCardState extends State<OppCard> {
                       bool isOppSaved = await SavedApiService().checkIsSaved(
                         widget.opps.id!,
                       );
-                      print('check if is saved: $isOppSaved');
+                      isOppSaved
+                          ? await SavedApiService().unSavingOpp(widget.opps.id!)
+                          : await SavedApiService().saveOpp(widget.opps.id!);
                     },
                     child: Icon(
                       Icons.bookmark_border_outlined,
-                      color: Colors.grey,
+                      color:  Colors.grey,
                     ),
                   ),
                   SizedBox(width: 5),
