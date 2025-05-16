@@ -74,8 +74,8 @@ class OpportunityApiService {
 
   Future<int> totalLikes(int oppId) async {
     try {
-      final response = await _dio.get('/comment/count/${oppId}');
-      final int dataJson = response.data['data']['count'];
+      final response = await _dio.get('/like/${oppId}');
+      final int dataJson = response.data['data']['TotalLikes'];
       return dataJson;
     } on DioException catch (e) {
       throw e.message!;

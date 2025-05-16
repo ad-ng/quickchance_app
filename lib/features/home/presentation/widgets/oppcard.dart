@@ -114,41 +114,13 @@ class _OppCardState extends State<OppCard> {
               Row(
                 children: [
                   SizedBox(width: 10),
-
-                  FutureBuilder(
-                    future: OpportunityApiService().checkLikes(
-                      widget.opps.userId,
-                    ),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Icon(
-                          Icons.favorite_border_rounded,
-                          color: Colors.grey,
-                        );
-                      }
-                      if (snapshot.hasData) {
-                        bool isLiked = snapshot.data!;
-                        return (isLiked)
-                            ? Icon(
-                              Icons.favorite_border_rounded,
-                              color: Colors.red,
-                            )
-                            : Icon(
-                              Icons.favorite_border_rounded,
-                              color: Colors.grey,
-                            );
-                      }
-                      return SizedBox.shrink();
-                    },
-                  ),
+                  Icon(Icons.favorite_border_sharp),
                   SizedBox(width: 5),
                   FutureBuilder(
-                    future: OpportunityApiService().fetchLikes(
-                      widget.opps.userId,
-                    ),
+                    future: OpportunityApiService().totalLikes(widget.opps.id!),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return Text('${snapshot.data}');
+                        return Text('${snapshot.data} ');
                       }
                       return SizedBox.shrink();
                     },
@@ -177,7 +149,7 @@ class _OppCardState extends State<OppCard> {
                     },
                     child: Icon(
                       Icons.bookmark_border_outlined,
-                      color:  Colors.grey,
+                      color: Colors.grey,
                     ),
                   ),
                   SizedBox(width: 5),

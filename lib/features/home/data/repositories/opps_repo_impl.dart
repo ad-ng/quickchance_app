@@ -7,4 +7,19 @@ class OppsRepoImpl implements OppsRepo {
   Future<List<OpportunityModel>> fetchAllOpps() async {
     return await OpportunityApiService().fetchAllOpps();
   }
+
+  @override
+  Future<bool> checkLikes(int oppId) async {
+    return await OpportunityApiService().checkLikes(oppId);
+  }
+
+  @override
+  Future likingOpp(int oppId) async {
+    return await OpportunityApiService().likingOpp(oppId);
+  }
+
+  @override
+  Future unLikingOpp(int oppId) async {
+    return await OpportunityApiService().unLikingOpp(oppId);
+  }
 }
