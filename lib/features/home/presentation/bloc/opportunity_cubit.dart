@@ -16,7 +16,8 @@ class OpportunityCubit extends Cubit<OpportunityState> {
     }
   }
 
-  Future checkIfLiked(int oppId) async {
+  Future checkIfLiked(int oppId) async {}
+  Future likeOrDislike(int oppId) async {
     bool checkLiked = await oppsRepo.checkLikes(oppId);
 
     try {

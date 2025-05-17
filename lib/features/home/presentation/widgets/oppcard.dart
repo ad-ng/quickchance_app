@@ -16,6 +16,12 @@ class OppCard extends StatefulWidget {
 
 class _OppCardState extends State<OppCard> {
   @override
+  void initState() {
+    BlocProvider.of<OpportunityCubit>(context).totalLikes(widget.opps.id!);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5, horizontal: 30),
@@ -120,17 +126,21 @@ class _OppCardState extends State<OppCard> {
                     onTap: () {
                       BlocProvider.of<OpportunityCubit>(
                         context,
-                      ).checkIfLiked(widget.opps.id!);
+                      ).likeOrDislike(widget.opps.id!);
+
+                      BlocProvider.of<OpportunityCubit>(
+                        context,
+                      ).totalLikes(widget.opps.id!);
                     },
                     child: Icon(Icons.favorite_border_sharp),
                   ),
                   SizedBox(width: 5),
-                  FutureBuilder(
-                    future: OpportunityApiService().totalLikes(widget.opps.id!),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Text('${snapshot.data} ');
+                  BlocBuilder<OpportunityCubit, OpportunityState>(
+                    builder: (context, state) {
+                      if (state is OpportunityTotalLikesSuccess) {
+                        return Text('${state.response}');
                       }
+                      
                       return SizedBox.shrink();
                     },
                   ),
