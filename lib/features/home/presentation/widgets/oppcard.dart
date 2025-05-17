@@ -114,7 +114,21 @@ class _OppCardState extends State<OppCard> {
               Row(
                 children: [
                   SizedBox(width: 10),
-                  Icon(Icons.favorite_border_sharp),
+                  GestureDetector(
+                    onTap: () async {
+                      final bool checkLikes = await OpportunityApiService()
+                          .checkLikes(widget.opps.id!);
+                      (checkLikes)
+                          ? await OpportunityApiService().unLikingOpp(
+                            widget.opps.id!,
+                          )
+                          : await OpportunityApiService().likingOpp(
+                            widget.opps.id!,
+                          );
+                      print('is liked: $checkLikes');
+                    },
+                    child: Icon(Icons.favorite_border_sharp),
+                  ),
                   SizedBox(width: 5),
                   FutureBuilder(
                     future: OpportunityApiService().totalLikes(widget.opps.id!),
