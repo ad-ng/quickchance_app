@@ -5,4 +5,5 @@ abstract class OppsRepo {
   Future<bool> checkLikes(int oppId);
   Future likingOpp(int oppId);
   Future unLikingOpp(int oppId);
+  Future <int> totalLikes(int oppId);
 }
