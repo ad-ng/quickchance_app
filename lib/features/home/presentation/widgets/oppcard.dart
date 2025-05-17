@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickchance_app/features/home/data/datasources/remote/opportunityApiService.dart';
 import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
+import 'package:quickchance_app/features/home/presentation/bloc/opportunity_cubit.dart';
 import 'package:quickchance_app/features/saved/data/datasources/remote/savedApiService.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -115,17 +117,10 @@ class _OppCardState extends State<OppCard> {
                 children: [
                   SizedBox(width: 10),
                   GestureDetector(
-                    onTap: () async {
-                      final bool checkLikes = await OpportunityApiService()
-                          .checkLikes(widget.opps.id!);
-                      (checkLikes)
-                          ? await OpportunityApiService().unLikingOpp(
-                            widget.opps.id!,
-                          )
-                          : await OpportunityApiService().likingOpp(
-                            widget.opps.id!,
-                          );
-                      print('is liked: $checkLikes');
+                    onTap: () {
+                      BlocProvider.of<OpportunityCubit>(
+                        context,
+                      ).checkIfLiked(widget.opps.id!);
                     },
                     child: Icon(Icons.favorite_border_sharp),
                   ),

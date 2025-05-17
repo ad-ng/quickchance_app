@@ -20,7 +20,7 @@ class OpportunityCubit extends Cubit<OpportunityState> {
     bool checkLiked = await oppsRepo.checkLikes(oppId);
 
     try {
-      checkLiked ? oppsRepo.unLikingOpp(oppId) : oppsRepo.unLikingOpp(oppId);
+      checkLiked ? oppsRepo.unLikingOpp(oppId) : oppsRepo.likingOpp(oppId);
       emit(OpportunityLikesSuccess(checkLiked));
     } catch (e) {
       emit(OpportunityLikesError(e.toString()));
