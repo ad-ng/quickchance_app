@@ -123,10 +123,16 @@ class _OppCardState extends State<OppCard> {
                 children: [
                   SizedBox(width: 10),
                   GestureDetector(
-                    onTap: () {
-                      BlocProvider.of<OpportunityCubit>(
-                        context,
-                      ).likeOrDislike(widget.opps.id!);
+                    onTap: () async {
+                      bool isOppSaved = await OpportunityApiService()
+                          .checkLikes(widget.opps.id!);
+                      isOppSaved
+                          ? await OpportunityApiService().unLikingOpp(
+                            widget.opps.id!,
+                          )
+                          : await OpportunityApiService().likingOpp(
+                            widget.opps.id!,
+                          );
 
                       BlocProvider.of<OpportunityCubit>(
                         context,
@@ -140,7 +146,7 @@ class _OppCardState extends State<OppCard> {
                       if (state is OpportunityTotalLikesSuccess) {
                         return Text('${state.response}');
                       }
-                      
+
                       return SizedBox.shrink();
                     },
                   ),
