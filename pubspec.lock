@@ -400,6 +400,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  popover:
+    dependency: "direct main"
+    description:
+      name: popover
+      sha256: "0606f3e10f92fc0459f5c52fd917738c29e7552323b28694d50c2d3312d0e1a2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1"
   posix:
     dependency: transitive
     description:
@@ -533,6 +541,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.7.0"
+  toggle_switch:
+    dependency: "direct main"
+    description:
+      name: toggle_switch
+      sha256: dca04512d7c23ed320d6c5ede1211a404f177d54d353bf785b07d15546a86ce5
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
   typed_data:
     dependency: transitive
     description:
