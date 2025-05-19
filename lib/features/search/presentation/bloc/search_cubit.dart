@@ -16,6 +16,17 @@ class SearchCubit extends Cubit<SearchState> {
       emit(SearchError(e.toString()));
     }
   }
+
+  Future filterOpp(String oppStatus) async {
+    emit(SearchLoading());
+    try {
+      final response = await searchRepo.filterOpp(oppStatus);
+      print('search data found: ${response.length}');
+      emit(SearchSuccess(response));
+    } catch (e) {
+      emit(SearchError(e.toString()));
+    }
+  }
 }
 
 abstract class SearchState {}

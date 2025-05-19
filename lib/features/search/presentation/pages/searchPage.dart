@@ -60,7 +60,24 @@ class _SearchPageState extends State<SearchPage> {
                               [Colors.pink],
                               [Colors.blue],
                             ],
-                            onToggle: (index) {},
+                            onToggle: (index) {
+                              if (index == 0) {
+                                BlocProvider.of<SearchCubit>(
+                                  context,
+                                ).filterOpp('open');
+                                Navigator.pop(context);
+                              } else if (index == 1) {
+                                BlocProvider.of<SearchCubit>(
+                                  context,
+                                ).filterOpp('closed');
+                                Navigator.pop(context);
+                              } else {
+                                BlocProvider.of<SearchCubit>(
+                                  context,
+                                ).searchOpp('');
+                                Navigator.pop(context);
+                              }
+                            },
                           ),
                     );
                   },
