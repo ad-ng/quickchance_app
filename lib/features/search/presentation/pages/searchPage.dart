@@ -141,6 +141,14 @@ class _SearchPageState extends State<SearchPage> {
               return Center(child: CircularProgressIndicator());
             }
             if (state is SearchSuccess) {
+              if (state.response.length == 0) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 70),
+                  child: Center(
+                    child: Image.asset('././lib/images/no-search-found.png'),
+                  ),
+                );
+              }
               return Expanded(
                 child: ListView.builder(
                   itemCount: state.response.length,
