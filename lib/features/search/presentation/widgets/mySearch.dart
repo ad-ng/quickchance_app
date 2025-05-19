@@ -13,7 +13,7 @@ class _MySearchState extends State<MySearch> {
   Widget build(BuildContext context) {
     return Container(
       height: 45,
-      margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
+      margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
       child: TextField(
         controller: widget.searchQuery,
         decoration: InputDecoration(

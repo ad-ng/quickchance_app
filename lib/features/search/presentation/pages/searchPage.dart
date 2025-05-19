@@ -60,6 +60,7 @@ class _SearchPageState extends State<SearchPage> {
                               [Colors.pink],
                               [Colors.blue],
                             ],
+                            onToggle: (index) {},
                           ),
                     );
                   },

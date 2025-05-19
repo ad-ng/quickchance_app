@@ -30,6 +30,30 @@ class SearchApiService {
     }
   }
 
+  Future<List<OpportunityModel>> filterByStatus(String oppStatus) async {
+    try {
+      final response = await _dio.get(
+        '/opportunity/filter/status',
+        queryParameters: {"oppStatus": oppStatus},
+      );
+      final dataJson = response.data['data'];
+
+      if (dataJson != null && dataJson is List) {
+        return dataJson.map((json) => OpportunityModel.fromJson(json)).toList();
+      } else {
+        throw Exception(
+          'Expected a list of properties but got ${dataJson.runtimeType}',
+        );
+      }
+    } on DioException catch (e) {
+      // Handle Dio errors
+      throw e.message!;
+    } catch (e) {
+      // Catch other errors
+      return Future.error('Something went wrong: $e');
+    }
+  }
+
   Future<List<CategoryModel>> fetchAllCategories() async {
     try {
       final response = await _dio.get('/category');
