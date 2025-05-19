@@ -10,6 +10,7 @@ class SearchCubit extends Cubit<SearchState> {
     emit(SearchLoading());
     try {
       final response = await searchRepo.searchOpp(searchQuery);
+      print('search data found: ${response.length}');
       emit(SearchSuccess(response));
     } catch (e) {
       emit(SearchError(e.toString()));
