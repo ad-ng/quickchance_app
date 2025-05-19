@@ -15,6 +15,7 @@ const pages = [Homepage(), SearchPage(), SavedPage(), ProfilePage()];
 
 class _LandingPageState extends State<LandingPage> {
   int currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

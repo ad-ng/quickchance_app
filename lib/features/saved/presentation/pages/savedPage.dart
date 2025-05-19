@@ -17,32 +17,32 @@ class _SavedPageState extends State<SavedPage> {
         SizedBox(height: 10),
         Center(child: Text('SAVED OPPORTUNITIES')),
         SizedBox(height: 10),
-        Expanded(
-          child: FutureBuilder(
-            future: SavedApiService().fetchSavedOpps(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+        FutureBuilder(
+          future: SavedApiService().fetchSavedOpps(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasData) {
+              if (snapshot.data!.length == 0) {
+                return Center(
+                  child: Image.asset('././lib/images/no-search-found.png'),
+                );
               }
-              if (snapshot.hasData) {
-                if (snapshot.data!.length == 0) {
-                  return Center(
-                    child: Image.asset('././lib/images/no-search-found.png'),
-                  );
-                }
-                return ListView.builder(
+              return Expanded(
+                child: ListView.builder(
                   itemCount: snapshot.data!.length,
                   itemBuilder:
                       (context, index) =>
                           OppCard(opps: snapshot.data![index].opp),
-                );
-              }
-              if (snapshot.hasError) {
-                return Center(child: Text(snapshot.error.toString()));
-              }
-              return SizedBox.shrink();
-            },
-          ),
+                ),
+              );
+            }
+            if (snapshot.hasError) {
+              return Center(child: Text(snapshot.error.toString()));
+            }
+            return SizedBox.shrink();
+          },
         ),
       ],
     );
