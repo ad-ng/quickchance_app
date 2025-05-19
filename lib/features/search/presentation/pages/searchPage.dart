@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:popover/popover.dart';
 import 'package:quickchance_app/features/home/presentation/widgets/oppcard.dart';
+import 'package:quickchance_app/features/search/data/datasource/local/searchApiService.dart';
 import 'package:quickchance_app/features/search/presentation/bloc/search_cubit.dart';
 import 'package:quickchance_app/features/search/presentation/widgets/mySearch.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -69,12 +70,12 @@ class _SearchPageState extends State<SearchPage> {
                 );
               },
             ),
-
-            SizedBox(width: 40),
             Builder(
               builder: (context) {
                 return TextButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    final cats = await SearchApiService().fetchAllCategories();
+                    print('fetched categories: ${cats.length}');
                     showPopover(
                       context: context,
                       bodyBuilder:
@@ -86,29 +87,15 @@ class _SearchPageState extends State<SearchPage> {
                             radiusStyle: true,
                             cornerRadius: 20.0,
                             initialLabelIndex: 0,
-                            activeBgColors: [
-                              [Colors.yellow],
-                              [Colors.yellow],
-                              [Colors.yellow],
-                              [Colors.yellow],
-                              [Colors.yellow],
-                              [Colors.yellow],
-                              [Colors.yellow],
-                              [Colors.yellow],
-                            ],
                             inactiveBgColor:
                                 Theme.of(context).colorScheme.surface,
-                            labels: [
-                              'All Types',
-                              'ScholarShip',
-                              'Land',
-                              'Office',
-                              'Cottage',
-                              'Villa',
-                              'Apartment',
-                              'Residential House',
-                            ],
-                            onToggle: (index) {},
+                            labels: cats.map((item) => item.name).toList(),
+                            onToggle: (index) {
+                              BlocProvider.of<SearchCubit>(
+                                context,
+                              ).searchOpp(cats[index!].name);
+                              Navigator.pop(context);
+                            },
                           ),
                     );
                   },
@@ -118,6 +105,15 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 );
               },
+            ),
+            TextButton(
+              onPressed: () {
+                BlocProvider.of<SearchCubit>(context).searchOpp('');
+              },
+              child: Text(
+                'Clear',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),

@@ -36,7 +36,7 @@ class SearchApiService {
       final dataJson = response.data['data'];
 
       if (dataJson != null && dataJson is List) {
-        return dataJson.map((json) => CategoryModel.fromJson(json)).toList();
+        return dataJson.map((json) => CategoryModel.fromMap(json)).toList();
       } else {
         throw Exception(
           'Expected a list of properties but got ${dataJson.runtimeType}',
