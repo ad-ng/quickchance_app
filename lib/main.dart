@@ -17,6 +17,8 @@ import 'package:quickchance_app/features/home/presentation/pages/landing_page.da
 import 'package:quickchance_app/features/profile/presentation/pages/changePassword.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/editProfile.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/settingsPage.dart';
+import 'package:quickchance_app/features/search/data/repository/search_repo_impl.dart';
+import 'package:quickchance_app/features/search/presentation/bloc/search_cubit.dart';
 
 var tokenValue;
 void main() async {
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
 
   final _authRepo = AuthRepoImpl();
   final oppsRepo = OppsRepoImpl();
-  // This widget is the root of your application.
+  final searchRepo = SearchRepoImpl();
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -40,6 +42,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AuthCubit(_authRepo)),
         BlocProvider(create: (context) => ThemeCubit()),
         BlocProvider(create: (context) => OpportunityCubit(oppsRepo)),
+        BlocProvider(create: (context) => SearchCubit(searchRepo)),
       ],
       child: BlocBuilder<ThemeCubit, ThemeModeState>(
         builder: (context, themeMode) {
