@@ -7,4 +7,9 @@ class SearchRepoImpl implements SearchRepo {
   Future<List<OpportunityModel>> searchOpp(String searchQuery) async {
     return await SearchApiService().searchOpps(searchQuery);
   }
+
+  @override
+  Future<List<OpportunityModel>> filterOpp(String oppStatus) async {
+    return await SearchApiService().filterByStatus(oppStatus);
+  }
 }
