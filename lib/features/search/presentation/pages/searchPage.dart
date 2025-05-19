@@ -75,7 +75,6 @@ class _SearchPageState extends State<SearchPage> {
               builder: (context) {
                 return TextButton(
                   onPressed: () {
-                    
                     showPopover(
                       context: context,
                       bodyBuilder:
@@ -114,7 +113,7 @@ class _SearchPageState extends State<SearchPage> {
                     );
                   },
                   child: Text(
-                    'Type',
+                    'Categories',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 );
