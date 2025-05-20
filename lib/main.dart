@@ -14,6 +14,7 @@ import 'package:quickchance_app/features/auth/presentation/pages/register_page.d
 import 'package:quickchance_app/features/home/data/repositories/opps_repo_impl.dart';
 import 'package:quickchance_app/features/home/presentation/bloc/opportunity_cubit.dart';
 import 'package:quickchance_app/features/home/presentation/pages/landing_page.dart';
+import 'package:quickchance_app/features/notifications/presentation/pages/notification_page.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/changePassword.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/editProfile.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/settingsPage.dart';
@@ -107,6 +108,11 @@ final GoRouter _router = GoRouter(
       name: 'forgotPassword',
       path: '/forgotPassword',
       builder: (context, state) => ForgotPassword(),
+    ),
+    GoRoute(
+      name: 'notificationPage',
+      path: '/notificationPage',
+      builder: (context, state) => NotificationPage(),
     ),
   ],
 );
