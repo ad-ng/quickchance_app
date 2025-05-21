@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickchance_app/features/home/data/datasources/remote/opportunityApiService.dart';
+import 'package:quickchance_app/features/home/data/datasources/remote/opportunitySocketService.dart';
 import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
 import 'package:quickchance_app/features/home/presentation/bloc/opportunity_cubit.dart';
 import 'package:quickchance_app/features/saved/data/datasources/remote/savedApiService.dart';
@@ -15,6 +16,31 @@ class OppCard extends StatefulWidget {
 }
 
 class _OppCardState extends State<OppCard> {
+  var _likeCount;
+  final socketService = OpportunitySocketService();
+  @override
+  void initState() {
+    super.initState();
+    socketService.connect();
+    socketService.joinOpportunity(widget.opps.id!);
+    socketService.getLikeCount(widget.opps.id!);
+
+    // Listen to likes
+    socketService.socket.on('countLikesReply', (data) {
+      if (data['opportunityId'] == widget.opps.id) {
+        setState(() {
+          _likeCount = data['likeCount']['TotalLikes'];
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    socketService.socket.off('countLikesReply');
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -125,7 +151,7 @@ class _OppCardState extends State<OppCard> {
                     child: Icon(Icons.favorite_border_sharp),
                   ),
                   SizedBox(width: 5),
-
+                  Text('${_likeCount}'),
                   SizedBox(width: 15),
                   Icon(Icons.comment, color: Colors.grey),
                   SizedBox(width: 5),
