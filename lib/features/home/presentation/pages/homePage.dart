@@ -26,7 +26,10 @@ class _HomepageState extends State<Homepage> {
                 child: ListView.builder(
                   itemCount: state.response.length,
                   itemBuilder: (context, index) {
-                    return OppCard(opps: state.response[index]);
+                    return OppCard(
+                      opps: state.response[index],
+                      key: ValueKey(state.response[index].id),
+                    );
                   },
                 ),
               );
