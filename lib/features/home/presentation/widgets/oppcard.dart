@@ -17,6 +17,7 @@ class OppCard extends StatefulWidget {
 
 class _OppCardState extends State<OppCard> {
   var _likeCount;
+  late bool checkIfLiked;
   final socketService = OpportunitySocketService();
   @override
   void initState() {
@@ -146,7 +147,7 @@ class _OppCardState extends State<OppCard> {
                     onTap: () {
                       BlocProvider.of<OpportunityCubit>(
                         context,
-                      ).likeOrDislike(widget.opps.id!);
+                      ).likeOrDislike(widget.opps.id!, checkIfLiked);
                     },
                     child: Icon(Icons.favorite_border_sharp),
                   ),

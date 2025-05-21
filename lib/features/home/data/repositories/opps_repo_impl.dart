@@ -9,11 +9,6 @@ class OppsRepoImpl implements OppsRepo {
   }
 
   @override
-  Future<bool> checkLikes(int oppId) async {
-    return await OpportunityApiService().checkLikes(oppId);
-  }
-
-  @override
   Future likingOpp(int oppId) async {
     return await OpportunityApiService().likingOpp(oppId);
   }
