@@ -26,21 +26,8 @@ class OpportunityCubit extends Cubit<OpportunityState> {
           ? await oppsRepo.unLikingOpp(oppId)
           : await oppsRepo.likingOpp(oppId);
       emit(OpportunityLikesSuccess(!checkLiked));
-      totalLikes(oppId);
     } catch (e) {
       emit(OpportunityLikesError(e.toString()));
-    }
-  }
-
-  Future totalLikes(int oppId) async {
-    emit(OpportunityTotalLikesLoading());
-    try {
-      final response = await oppsRepo.totalLikes(oppId);
-      print('fetching likes: ${response} on oppId ${oppId}');
-      emit(OpportunityTotalLikesSuccess(response));
-    } catch (e) {
-      print('error fetching likes on oppId: ${oppId}');
-      emit(OpportunityTotalLikesError(e.toString()));
     }
   }
 }
@@ -50,8 +37,6 @@ abstract class OpportunityState {}
 class OpportunityInitial extends OpportunityState {}
 
 class OpportunityLoading extends OpportunityState {}
-
-class OpportunityTotalLikesLoading extends OpportunityState {}
 
 class OpportunitySuccess extends OpportunityState {
   final List<OpportunityModel> response;
@@ -63,11 +48,6 @@ class OpportunityLikesSuccess extends OpportunityState {
   OpportunityLikesSuccess(this.response);
 }
 
-class OpportunityTotalLikesSuccess extends OpportunityState {
-  final int response;
-  OpportunityTotalLikesSuccess(this.response);
-}
-
 class OpportunityError extends OpportunityState {
   final String error;
   OpportunityError(this.error);
@@ -76,9 +56,4 @@ class OpportunityError extends OpportunityState {
 class OpportunityLikesError extends OpportunityState {
   final String error;
   OpportunityLikesError(this.error);
-}
-
-class OpportunityTotalLikesError extends OpportunityState {
-  final String error;
-  OpportunityTotalLikesError(this.error);
 }
