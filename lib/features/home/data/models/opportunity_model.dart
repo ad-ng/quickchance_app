@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:quickchance_app/features/auth/data/model/user_model.dart';
+import 'package:quickchance_app/features/search/data/models/categoryModel.dart';
 
 class OpportunityModel {
   int? id;
@@ -14,6 +15,7 @@ class OpportunityModel {
   int categoryId;
   String? updatedAt;
   UserModel user;
+  CategoryModel category;
   OpportunityModel({
     this.id,
     required this.title,
@@ -25,6 +27,7 @@ class OpportunityModel {
     required this.categoryId,
     this.updatedAt,
     required this.user,
+    required this.category,
   });
 
   Map<String, dynamic> toMap() {
@@ -53,6 +56,7 @@ class OpportunityModel {
       categoryId: map['categoryId'] as int,
       updatedAt: map['updatedAt'] != null ? map['updatedAt'] as String : null,
       user: UserModel.fromJson(map['user'] as Map<String, dynamic>),
+      category: CategoryModel.fromMap(map['category'] as Map<String, dynamic>),
     );
   }
 

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:quickchance_app/conf/dioservice.dart';
+import 'package:quickchance_app/conf/dio/dioservice.dart';
 import 'package:quickchance_app/features/saved/data/models/saved_opp_model.dart';
 
 class SavedApiService {

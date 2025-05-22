@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:quickchance_app/conf/dioservice.dart';
+import 'package:quickchance_app/conf/dio/dioservice.dart';
 import 'package:quickchance_app/features/auth/data/datasource/local/tokenstore.dart';
 import 'package:quickchance_app/features/auth/data/datasource/local/userpreferences.dart';
 import 'package:quickchance_app/features/auth/data/model/login_model.dart';

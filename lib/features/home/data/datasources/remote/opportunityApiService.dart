@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:quickchance_app/conf/dioservice.dart';
+import 'package:quickchance_app/conf/dio/dioservice.dart';
 import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
 
 class OpportunityApiService {
@@ -26,30 +26,6 @@ class OpportunityApiService {
     }
   }
 
-  Future fetchLikes(int oppId) async {
-    try {
-      final response = await _dio.get('/like/${oppId}');
-      final int dataJson = response.data['data']['TotalLikes'];
-      return dataJson;
-    } on DioException catch (e) {
-      throw e.message!;
-    } catch (e) {
-      return Future.error('Something went wrong: $e');
-    }
-  }
-
-  Future<bool> checkLikes(int oppId) async {
-    try {
-      final response = await _dio.get('/like/check/${oppId}');
-      final bool dataJson = response.data['data']['checkLike'];
-      return dataJson;
-    } on DioException catch (e) {
-      throw e.message!;
-    } catch (e) {
-      return Future.error('Something went wrong: $e');
-    }
-  }
-
   Future likingOpp(int oppId) async {
     try {
       final response = await _dio.post('/like/add/$oppId');
@@ -69,18 +45,6 @@ class OpportunityApiService {
       throw e.message!;
     } catch (e) {
       return Future.error('something went wrong: $e');
-    }
-  }
-
-  Future<int> totalLikes(int oppId) async {
-    try {
-      final response = await _dio.get('/like/${oppId}');
-      final int dataJson = response.data['data']['TotalLikes'];
-      return dataJson;
-    } on DioException catch (e) {
-      throw e.message!;
-    } catch (e) {
-      return Future.error('Something went wrong: $e');
     }
   }
 

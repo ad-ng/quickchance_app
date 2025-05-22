@@ -32,9 +32,12 @@ class _SavedPageState extends State<SavedPage> {
               return Expanded(
                 child: ListView.builder(
                   itemCount: snapshot.data!.length,
+                  addAutomaticKeepAlives: true,
                   itemBuilder:
-                      (context, index) =>
-                          OppCard(opps: snapshot.data![index].opp),
+                      (context, index) => OppCard(
+                        opps: snapshot.data![index].opp,
+                        key: ValueKey(snapshot.data![index].id),
+                      ),
                 ),
               );
             }

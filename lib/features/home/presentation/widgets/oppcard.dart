@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickchance_app/features/home/data/datasources/remote/opportunityApiService.dart';
+import 'package:quickchance_app/features/home/data/datasources/remote/opportunitySocketService.dart';
 import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
 import 'package:quickchance_app/features/home/presentation/bloc/opportunity_cubit.dart';
 import 'package:quickchance_app/features/saved/data/datasources/remote/savedApiService.dart';
@@ -8,15 +9,56 @@ import 'package:timeago/timeago.dart' as timeago;
 
 class OppCard extends StatefulWidget {
   final OpportunityModel opps;
+
   const OppCard({super.key, required this.opps});
 
   @override
   State<OppCard> createState() => _OppCardState();
 }
 
-class _OppCardState extends State<OppCard> {
+class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  int? _likeCount;
+  bool checkIfLiked = false;
+  final socketService = OpportunitySocketService();
+
+  @override
+  void initState() {
+    super.initState();
+    socketService.joinOpportunity(widget.opps.id!);
+    socketService.getLikeCount(widget.opps.id!);
+    socketService.checkIfLiked(widget.opps.id!);
+
+    // Listen to likes
+    socketService.socket.on('countLikesReply', (data) {
+      if (data['opportunityId'] == widget.opps.id) {
+        setState(() {
+          _likeCount = data['likeCount']['TotalLikes'];
+        });
+      }
+    });
+
+    socketService.socket.on('checkLikesReply', (data) {
+      if (data['opportunityId'] == widget.opps.id) {
+        setState(() {
+          checkIfLiked = data['isLiked']['checkLike'];
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    socketService.socket.off('countLikesReply');
+    socketService.socket.off('checkLikesReply');
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5, horizontal: 30),
       padding: EdgeInsets.all(10),
@@ -107,7 +149,10 @@ class _OppCardState extends State<OppCard> {
                 'Category:   ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text('tech', style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(
+                widget.opps.category.name,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ],
           ),
           SizedBox(height: 10),
@@ -120,12 +165,15 @@ class _OppCardState extends State<OppCard> {
                     onTap: () {
                       BlocProvider.of<OpportunityCubit>(
                         context,
-                      ).likeOrDislike(widget.opps.id!);
+                      ).likeOrDislike(widget.opps.id!, checkIfLiked);
                     },
-                    child: Icon(Icons.favorite_border_sharp),
+                    child: Icon(
+                      Icons.favorite_border_sharp,
+                      color: (checkIfLiked) ? Colors.red[300] : Colors.grey,
+                    ),
                   ),
                   SizedBox(width: 5),
-
+                  Text('${_likeCount}'),
                   SizedBox(width: 15),
                   Icon(Icons.comment, color: Colors.grey),
                   SizedBox(width: 5),

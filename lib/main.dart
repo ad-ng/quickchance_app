@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quickchance_app/conf/dioservice.dart';
+import 'package:quickchance_app/conf/dio/dioservice.dart';
+import 'package:quickchance_app/conf/socketServices.dart';
 import 'package:quickchance_app/core/dark_mode.dart';
 import 'package:quickchance_app/core/light_mode.dart';
 import 'package:quickchance_app/core/theme_cubit.dart';
@@ -11,19 +12,24 @@ import 'package:quickchance_app/features/auth/presentation/bloc/auth_cubit.dart'
 import 'package:quickchance_app/features/auth/presentation/pages/forgot_password.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/login_page.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/register_page.dart';
+import 'package:quickchance_app/features/home/data/datasources/remote/opportunitySocketService.dart';
 import 'package:quickchance_app/features/home/data/repositories/opps_repo_impl.dart';
 import 'package:quickchance_app/features/home/presentation/bloc/opportunity_cubit.dart';
 import 'package:quickchance_app/features/home/presentation/pages/landing_page.dart';
+import 'package:quickchance_app/features/notifications/presentation/pages/notification_page.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/changePassword.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/editProfile.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/settingsPage.dart';
+import 'package:quickchance_app/features/search/data/repository/search_repo_impl.dart';
+import 'package:quickchance_app/features/search/presentation/bloc/search_cubit.dart';
 
 var tokenValue;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DioService.instance.setup();
   tokenValue = await TokenStore.getToken();
-
+  SocketService().connect();
   runApp(MyApp());
 }
 
@@ -32,7 +38,8 @@ class MyApp extends StatelessWidget {
 
   final _authRepo = AuthRepoImpl();
   final oppsRepo = OppsRepoImpl();
-  // This widget is the root of your application.
+  final searchRepo = SearchRepoImpl();
+  final socketService = OpportunitySocketService();
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -40,6 +47,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AuthCubit(_authRepo)),
         BlocProvider(create: (context) => ThemeCubit()),
         BlocProvider(create: (context) => OpportunityCubit(oppsRepo)),
+        BlocProvider(create: (context) => SearchCubit(searchRepo)),
       ],
       child: BlocBuilder<ThemeCubit, ThemeModeState>(
         builder: (context, themeMode) {
@@ -104,6 +112,11 @@ final GoRouter _router = GoRouter(
       name: 'forgotPassword',
       path: '/forgotPassword',
       builder: (context, state) => ForgotPassword(),
+    ),
+    GoRoute(
+      name: 'notificationPage',
+      path: '/notificationPage',
+      builder: (context, state) => NotificationPage(),
     ),
   ],
 );
