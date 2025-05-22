@@ -28,7 +28,7 @@ class _HomepageState extends State<Homepage> {
             },
             builder: (context, state) {
               if (state is OpportunityLoading) {
-                return Center(child: CircularProgressIndicator());
+                return Center(child: CircularProgressIndicator.adaptive());
               }
               if (state is OpportunitySuccess) {
                 return ListView.builder(

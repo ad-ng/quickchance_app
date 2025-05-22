@@ -91,7 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ListTile(
             leading: Icon(Icons.sunny),
             title: Text('Dark Mode', style: TextStyle(color: Colors.grey)),
-            trailing: Switch(
+            trailing: Switch.adaptive(
               value: isDarkMode,
               onChanged: (value) {
                 BlocProvider.of<ThemeCubit>(context).toggleTheme();

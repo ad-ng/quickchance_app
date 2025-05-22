@@ -22,7 +22,7 @@ class _SavedPageState extends State<SavedPage> {
             future: SavedApiService().fetchSavedOpps(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return Center(child: CircularProgressIndicator.adaptive());
               }
               if (snapshot.hasData) {
                 if (snapshot.data!.length == 0) {
