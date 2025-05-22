@@ -146,7 +146,10 @@ class _OppCardState extends State<OppCard> {
                 'Category:   ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text('tech', style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(
+                widget.opps.category.name,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ],
           ),
           SizedBox(height: 10),
