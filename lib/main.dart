@@ -22,6 +22,7 @@ import 'package:quickchance_app/features/search/data/repository/search_repo_impl
 import 'package:quickchance_app/features/search/presentation/bloc/search_cubit.dart';
 
 var tokenValue;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DioService.instance.setup();

@@ -1,7 +1,9 @@
 import 'package:quickchance_app/conf/appVariables.dart';
+import 'package:quickchance_app/features/auth/data/datasource/local/userpreferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class OpportunitySocketService {
+  UserPreferences _userPreferences = UserPreferences();
   late IO.Socket socket;
 
   void connect() {
@@ -31,17 +33,40 @@ class OpportunitySocketService {
       print('Like count: ${data['likeCount']}');
     });
 
+    socket.on('checkLikesReply', (data) {
+      print('opp is liked: ${data['isLiked']}');
+    });
+
     socket.on('error', (data) {
       print('Error: $data');
     });
   }
 
-  void joinOpportunity(int opportunityId) {
-    socket.emit('joinOpportunity', {'opportunityId': opportunityId});
+  void joinOpportunity(int opportunityId) async {
+    var localUser = await _userPreferences.getLocalUser();
+    int userId = localUser!.id;
+    socket.emit('joinOpportunity', {
+      'opportunityId': opportunityId,
+      'userId': userId,
+    });
   }
 
-  void getLikeCount(int opportunityId) {
-    socket.emit('getLikeCount', {'opportunityId': opportunityId});
+  void getLikeCount(int opportunityId) async {
+    var localUser = await _userPreferences.getLocalUser();
+    int userId = localUser!.id;
+    socket.emit('getLikeCount', {
+      'opportunityId': opportunityId,
+      'userId': userId,
+    });
+  }
+
+  void checkIfLiked(int opportunityId) async {
+    var localUser = await _userPreferences.getLocalUser();
+    int userId = localUser!.id;
+    socket.emit('checkIfLiked', {
+      'opportunityId': opportunityId,
+      'userId': userId,
+    });
   }
 
   void disconnect() {

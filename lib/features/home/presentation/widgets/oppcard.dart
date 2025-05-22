@@ -9,6 +9,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 class OppCard extends StatefulWidget {
   final OpportunityModel opps;
+
   const OppCard({super.key, required this.opps});
 
   @override
@@ -17,20 +18,32 @@ class OppCard extends StatefulWidget {
 
 class _OppCardState extends State<OppCard> {
   var _likeCount;
-  late bool checkIfLiked;
+  bool checkIfLiked = false;
   final socketService = OpportunitySocketService();
+
   @override
   void initState() {
     super.initState();
     socketService.connect();
     socketService.joinOpportunity(widget.opps.id!);
     socketService.getLikeCount(widget.opps.id!);
+    socketService.checkIfLiked(widget.opps.id!);
 
     // Listen to likes
     socketService.socket.on('countLikesReply', (data) {
       if (data['opportunityId'] == widget.opps.id) {
         setState(() {
           _likeCount = data['likeCount']['TotalLikes'];
+          print('testing likecount: ${_likeCount}');
+        });
+      }
+    });
+
+    socketService.socket.on('checkLikesReply', (data) {
+      if (data['opportunityId'] == widget.opps.id) {
+        setState(() {
+          checkIfLiked = data['isLiked']['checkLike'];
+          print("testing isliked: ${checkIfLiked}");
         });
       }
     });
@@ -39,6 +52,7 @@ class _OppCardState extends State<OppCard> {
   @override
   void dispose() {
     socketService.socket.off('countLikesReply');
+    socketService.socket.off('checkLikesReply');
     super.dispose();
   }
 
@@ -149,7 +163,10 @@ class _OppCardState extends State<OppCard> {
                         context,
                       ).likeOrDislike(widget.opps.id!, checkIfLiked);
                     },
-                    child: Icon(Icons.favorite_border_sharp),
+                    child: Icon(
+                      Icons.favorite_border_sharp,
+                      color: (checkIfLiked) ? Colors.red[300] : Colors.grey,
+                    ),
                   ),
                   SizedBox(width: 5),
                   Text('${_likeCount}'),
