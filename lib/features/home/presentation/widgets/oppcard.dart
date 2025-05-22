@@ -24,7 +24,7 @@ class _OppCardState extends State<OppCard> {
   @override
   void initState() {
     super.initState();
-    socketService.connect();
+
     socketService.joinOpportunity(widget.opps.id!);
     socketService.getLikeCount(widget.opps.id!);
     socketService.checkIfLiked(widget.opps.id!);
@@ -34,7 +34,6 @@ class _OppCardState extends State<OppCard> {
       if (data['opportunityId'] == widget.opps.id) {
         setState(() {
           _likeCount = data['likeCount']['TotalLikes'];
-          print('testing likecount: ${_likeCount}');
         });
       }
     });
@@ -43,7 +42,6 @@ class _OppCardState extends State<OppCard> {
       if (data['opportunityId'] == widget.opps.id) {
         setState(() {
           checkIfLiked = data['isLiked']['checkLike'];
-          print("testing isliked: ${checkIfLiked}");
         });
       }
     });
