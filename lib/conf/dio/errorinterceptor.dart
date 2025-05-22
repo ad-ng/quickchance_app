@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:quickchance_app/conf/errormodel.dart';
+import 'package:quickchance_app/conf/dio/errormodel.dart';
 
 class ErrorInterceptor extends Interceptor {
   @override

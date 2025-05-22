@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:quickchance_app/conf/errorinterceptor.dart';
-import 'package:quickchance_app/conf/headerInterceptor.dart';
+import 'package:quickchance_app/conf/dio/errorinterceptor.dart';
+import 'package:quickchance_app/conf/dio/headerInterceptor.dart';
 
 class DioService {
   DioService._privateConstructor();

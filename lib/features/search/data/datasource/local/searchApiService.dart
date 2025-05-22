@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:quickchance_app/conf/dioservice.dart';
+import 'package:quickchance_app/conf/dio/dioservice.dart';
 import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
 import 'package:quickchance_app/features/search/data/models/categoryModel.dart';
 

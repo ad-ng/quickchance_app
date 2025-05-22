@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quickchance_app/conf/dioservice.dart';
+import 'package:quickchance_app/conf/dio/dioservice.dart';
 import 'package:quickchance_app/core/dark_mode.dart';
 import 'package:quickchance_app/core/light_mode.dart';
 import 'package:quickchance_app/core/theme_cubit.dart';
