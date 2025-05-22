@@ -16,15 +16,17 @@ class OppCard extends StatefulWidget {
   State<OppCard> createState() => _OppCardState();
 }
 
-class _OppCardState extends State<OppCard> {
-  var _likeCount;
+class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  int? _likeCount;
   bool checkIfLiked = false;
   final socketService = OpportunitySocketService();
 
   @override
   void initState() {
     super.initState();
-
     socketService.joinOpportunity(widget.opps.id!);
     socketService.getLikeCount(widget.opps.id!);
     socketService.checkIfLiked(widget.opps.id!);
@@ -56,6 +58,7 @@ class _OppCardState extends State<OppCard> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5, horizontal: 30),
       padding: EdgeInsets.all(10),

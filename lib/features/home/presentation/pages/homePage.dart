@@ -24,6 +24,7 @@ class _HomepageState extends State<Homepage> {
             if (state is OpportunitySuccess) {
               return Expanded(
                 child: ListView.builder(
+                  addAutomaticKeepAlives: true,
                   itemCount: state.response.length,
                   itemBuilder: (context, index) {
                     return OppCard(

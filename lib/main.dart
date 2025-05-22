@@ -12,6 +12,7 @@ import 'package:quickchance_app/features/auth/presentation/bloc/auth_cubit.dart'
 import 'package:quickchance_app/features/auth/presentation/pages/forgot_password.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/login_page.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/register_page.dart';
+import 'package:quickchance_app/features/home/data/datasources/remote/opportunitySocketService.dart';
 import 'package:quickchance_app/features/home/data/repositories/opps_repo_impl.dart';
 import 'package:quickchance_app/features/home/presentation/bloc/opportunity_cubit.dart';
 import 'package:quickchance_app/features/home/presentation/pages/landing_page.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
   final _authRepo = AuthRepoImpl();
   final oppsRepo = OppsRepoImpl();
   final searchRepo = SearchRepoImpl();
+  final socketService = OpportunitySocketService();
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(

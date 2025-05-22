@@ -151,9 +151,13 @@ class _SearchPageState extends State<SearchPage> {
               }
               return Expanded(
                 child: ListView.builder(
+                  addAutomaticKeepAlives: true,
                   itemCount: state.response.length,
                   itemBuilder:
-                      (context, index) => OppCard(opps: state.response[index]),
+                      (context, index) => OppCard(
+                        opps: state.response[index],
+                        key: ValueKey(state.response[index].id),
+                      ),
                 ),
               );
             }
