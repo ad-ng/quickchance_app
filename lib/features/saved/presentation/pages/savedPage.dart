@@ -17,20 +17,20 @@ class _SavedPageState extends State<SavedPage> {
         SizedBox(height: 10),
         Center(child: Text('SAVED OPPORTUNITIES')),
         SizedBox(height: 10),
-        FutureBuilder(
-          future: SavedApiService().fetchSavedOpps(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            }
-            if (snapshot.hasData) {
-              if (snapshot.data!.length == 0) {
-                return Center(
-                  child: Image.asset('././lib/images/no-search-found.png'),
-                );
+        Expanded(
+          child: FutureBuilder(
+            future: SavedApiService().fetchSavedOpps(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
               }
-              return Expanded(
-                child: ListView.builder(
+              if (snapshot.hasData) {
+                if (snapshot.data!.length == 0) {
+                  return Center(
+                    child: Image.asset('././lib/images/no-search-found.png'),
+                  );
+                }
+                return ListView.builder(
                   itemCount: snapshot.data!.length,
                   addAutomaticKeepAlives: true,
                   itemBuilder:
@@ -38,14 +38,14 @@ class _SavedPageState extends State<SavedPage> {
                         opps: snapshot.data![index].opp,
                         key: ValueKey(snapshot.data![index].id),
                       ),
-                ),
-              );
-            }
-            if (snapshot.hasError) {
-              return Center(child: Text(snapshot.error.toString()));
-            }
-            return SizedBox.shrink();
-          },
+                );
+              }
+              if (snapshot.hasError) {
+                return Center(child: Text(snapshot.error.toString()));
+              }
+              return SizedBox.shrink();
+            },
+          ),
         ),
       ],
     );
