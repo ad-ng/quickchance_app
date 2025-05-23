@@ -23,23 +23,12 @@ class _LandingPageState extends State<LandingPage> {
       appBar: AppBar(
         title: Text('Quick Chance'),
         actions: [
-          Builder(
-            builder: (context) {
-              return GestureDetector(
-                onTap: () => context.push('/notificationPage'),
-                child: Badge(
-                  label: Text('10'),
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey, width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Icon(Icons.notifications_none, size: 30),
-                  ),
-                ),
-              );
-            },
+          Badge(
+            label: Text('9+', style: TextStyle(fontSize: 12)),
+            child: IconButton(
+              onPressed: () => context.push('/notificationPage'),
+              icon: Icon(Icons.notifications_none, size: 30),
+            ),
           ),
           SizedBox(width: 25),
         ],
