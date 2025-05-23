@@ -102,8 +102,10 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           ListTile(
+            onTap: () => context.pushNamed('dashboardPage'),
             leading: Icon(Icons.dashboard_outlined),
             title: Text('Dashboard', style: TextStyle(color: Colors.grey)),
+            trailing: Icon(Icons.chevron_right_rounded),
           ),
           ListTile(
             onTap: () => context.pushNamed('settingsPage'),
