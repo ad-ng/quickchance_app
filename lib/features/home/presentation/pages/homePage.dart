@@ -23,9 +23,6 @@ class _HomepageState extends State<Homepage> {
       children: [
         Expanded(
           child: BlocBuilder<OpportunityCubit, OpportunityState>(
-            buildWhen: (previous, current) {
-              return previous != current;
-            },
             builder: (context, state) {
               if (state is OpportunityLoading) {
                 return Center(child: CircularProgressIndicator.adaptive());

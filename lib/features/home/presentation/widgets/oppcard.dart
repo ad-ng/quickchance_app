@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickchance_app/features/home/data/datasources/remote/opportunityApiService.dart';
 import 'package:quickchance_app/features/home/data/datasources/remote/opportunitySocketService.dart';
 import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
-import 'package:quickchance_app/features/home/presentation/bloc/opportunity_cubit.dart';
 import 'package:quickchance_app/features/saved/data/datasources/remote/savedApiService.dart';
+import 'package:quickchance_app/features/saved/data/datasources/remote/savedSocketService.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class OppCard extends StatefulWidget {
@@ -20,19 +19,24 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
-  int? _likeCount;
+  int _likeCount = 0;
+  int _savedCount = 0;
   bool checkIfLiked = false;
-  final socketService = OpportunitySocketService();
+  bool checkIfSaved = false;
+  final likeSocketService = OpportunitySocketService();
+  final savedSocketService = SavedSocketService();
 
   @override
   void initState() {
     super.initState();
-    socketService.joinOpportunity(widget.opps.id!);
-    socketService.getLikeCount(widget.opps.id!);
-    socketService.checkIfLiked(widget.opps.id!);
+    likeSocketService.joinOpportunity(widget.opps.id!);
+    likeSocketService.getLikeCount(widget.opps.id!);
+    likeSocketService.checkIfLiked(widget.opps.id!);
+    savedSocketService.checkIfSaved(widget.opps.id!);
+    savedSocketService.getSavedCount(widget.opps.id!);
 
     // Listen to likes
-    socketService.socket.on('countLikesReply', (data) {
+    likeSocketService.socket.on('countLikesReply', (data) {
       if (data['opportunityId'] == widget.opps.id) {
         setState(() {
           _likeCount = data['likeCount']['TotalLikes'];
@@ -40,10 +44,26 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
       }
     });
 
-    socketService.socket.on('checkLikesReply', (data) {
+    likeSocketService.socket.on('checkLikesReply', (data) {
       if (data['opportunityId'] == widget.opps.id) {
         setState(() {
           checkIfLiked = data['isLiked']['checkLike'];
+        });
+      }
+    });
+
+    savedSocketService.socket.on('countSavedReply', (data) {
+      if (data['opportunityId'] == widget.opps.id) {
+        setState(() {
+          _savedCount = data['SavedCount'];
+        });
+      }
+    });
+
+    savedSocketService.socket.on('checkSavedReply', (data) {
+      if (data['opportunityId'] == widget.opps.id) {
+        setState(() {
+          checkIfSaved = data['isSaved'];
         });
       }
     });
@@ -51,8 +71,10 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
 
   @override
   void dispose() {
-    socketService.socket.off('countLikesReply');
-    socketService.socket.off('checkLikesReply');
+    likeSocketService.socket.off('countLikesReply');
+    likeSocketService.socket.off('checkLikesReply');
+    savedSocketService.socket.off('countSavedReply');
+    savedSocketService.socket.off('checkSavedReply');
     super.dispose();
   }
 
@@ -163,9 +185,9 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
                   SizedBox(width: 10),
                   GestureDetector(
                     onTap: () {
-                      BlocProvider.of<OpportunityCubit>(
-                        context,
-                      ).likeOrDislike(widget.opps.id!, checkIfLiked);
+                      (checkIfLiked)
+                          ? OpportunityApiService().unLikingOpp(widget.opps.id!)
+                          : OpportunityApiService().likingOpp(widget.opps.id!);
                     },
                     child: Icon(
                       Icons.favorite_border_sharp,
@@ -182,19 +204,15 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
                       widget.opps.id!,
                     ),
                     builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Text('${snapshot.data}');
-                      }
-                      return SizedBox.shrink();
+                      if (snapshot.hasError) return const Text('0');
+                      if (!snapshot.hasData) return const Text('0');
+                      return Text('${snapshot.data}');
                     },
                   ),
                   SizedBox(width: 15),
                   GestureDetector(
                     onTap: () async {
-                      bool isOppSaved = await SavedApiService().checkIsSaved(
-                        widget.opps.id!,
-                      );
-                      isOppSaved
+                      checkIfSaved
                           ? await SavedApiService().unSavingOpp(widget.opps.id!)
                           : await SavedApiService().saveOpp(widget.opps.id!);
                     },
@@ -204,15 +222,7 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
                     ),
                   ),
                   SizedBox(width: 5),
-                  FutureBuilder(
-                    future: OpportunityApiService().totalSaved(widget.opps.id!),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Text('${snapshot.data}');
-                      }
-                      return SizedBox.shrink();
-                    },
-                  ),
+                  Text('$_savedCount'),
                 ],
               ),
             ],
