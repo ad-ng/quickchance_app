@@ -12,18 +12,23 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   @override
+  void initState() {
+    BlocProvider.of<OpportunityCubit>(context).fetchAllOpps();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 5),
-        BlocBuilder<OpportunityCubit, OpportunityState>(
-          builder: (context, state) {
-            if (state is OpportunityLoading) {
-              return Center(child: CircularProgressIndicator());
-            }
-            if (state is OpportunitySuccess) {
-              return Expanded(
-                child: ListView.builder(
+        Expanded(
+          child: BlocBuilder<OpportunityCubit, OpportunityState>(
+            builder: (context, state) {
+              if (state is OpportunityLoading) {
+                return Center(child: CircularProgressIndicator.adaptive());
+              }
+              if (state is OpportunitySuccess) {
+                return ListView.builder(
                   addAutomaticKeepAlives: true,
                   itemCount: state.response.length,
                   itemBuilder: (context, index) {
@@ -32,11 +37,11 @@ class _HomepageState extends State<Homepage> {
                       key: ValueKey(state.response[index].id),
                     );
                   },
-                ),
-              );
-            }
-            return SizedBox.expand();
-          },
+                );
+              }
+              return SizedBox.expand();
+            },
+          ),
         ),
       ],
     );

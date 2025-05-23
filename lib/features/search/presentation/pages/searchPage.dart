@@ -19,6 +19,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<SearchCubit>(context).searchOpp('');
     searchQuery.addListener(() {
       BlocProvider.of<SearchCubit>(context).searchOpp(searchQuery.text);
     });
@@ -135,22 +136,22 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ],
         ),
-        BlocBuilder<SearchCubit, SearchState>(
-          builder: (context, state) {
-            if (state is SearchLoading) {
-              return Center(child: CircularProgressIndicator());
-            }
-            if (state is SearchSuccess) {
-              if (state.response.length == 0) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 70),
-                  child: Center(
-                    child: Image.asset('././lib/images/no-search-found.png'),
-                  ),
-                );
+        Expanded(
+          child: BlocBuilder<SearchCubit, SearchState>(
+            builder: (context, state) {
+              if (state is SearchLoading) {
+                return Center(child: CircularProgressIndicator.adaptive());
               }
-              return Expanded(
-                child: ListView.builder(
+              if (state is SearchSuccess) {
+                if (state.response.length == 0) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 70),
+                    child: Center(
+                      child: Image.asset('././lib/images/no-search-found.png'),
+                    ),
+                  );
+                }
+                return ListView.builder(
                   addAutomaticKeepAlives: true,
                   itemCount: state.response.length,
                   itemBuilder:
@@ -158,14 +159,14 @@ class _SearchPageState extends State<SearchPage> {
                         opps: state.response[index],
                         key: ValueKey(state.response[index].id),
                       ),
-                ),
-              );
-            }
-            if (state is SearchError) {
-              return Center(child: Text(state.error));
-            }
-            return SizedBox.shrink();
-          },
+                );
+              }
+              if (state is SearchError) {
+                return Center(child: Text(state.error));
+              }
+              return SizedBox.shrink();
+            },
+          ),
         ),
       ],
     );
