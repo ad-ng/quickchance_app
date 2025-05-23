@@ -52,18 +52,18 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
       }
     });
 
-    savedSocketService.socket.on('countSavedReply', (data) {
-      if (data['opportunityId'] == widget.opps.id) {
-        setState(() {
-          _savedCount = data['SavedCount'];
-        });
-      }
-    });
-
     savedSocketService.socket.on('checkSavedReply', (data) {
       if (data['opportunityId'] == widget.opps.id) {
         setState(() {
           checkIfSaved = data['isSaved'];
+        });
+      }
+    });
+
+    savedSocketService.socket.on('countSavedReply', (data) {
+      if (data['opportunityId'] == widget.opps.id) {
+        setState(() {
+          _savedCount = data['SavedCount'];
         });
       }
     });
@@ -73,8 +73,8 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
   void dispose() {
     likeSocketService.socket.off('countLikesReply');
     likeSocketService.socket.off('checkLikesReply');
-    savedSocketService.socket.off('countSavedReply');
     savedSocketService.socket.off('checkSavedReply');
+    savedSocketService.socket.off('countSavedReply');
     super.dispose();
   }
 
@@ -188,9 +188,14 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
                       (checkIfLiked)
                           ? OpportunityApiService().unLikingOpp(widget.opps.id!)
                           : OpportunityApiService().likingOpp(widget.opps.id!);
+                      setState(() {
+                        checkIfLiked = !checkIfLiked;
+                      });
                     },
                     child: Icon(
-                      Icons.favorite_border_sharp,
+                      checkIfLiked
+                          ? Icons.favorite
+                          : Icons.favorite_border_sharp,
                       color: (checkIfLiked) ? Colors.red[300] : Colors.grey,
                     ),
                   ),
@@ -215,10 +220,15 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
                       checkIfSaved
                           ? await SavedApiService().unSavingOpp(widget.opps.id!)
                           : await SavedApiService().saveOpp(widget.opps.id!);
+                      setState(() {
+                        checkIfSaved = !checkIfSaved;
+                      });
                     },
                     child: Icon(
-                      Icons.bookmark_border_outlined,
-                      color: Colors.grey,
+                      checkIfSaved
+                          ? Icons.bookmark_outlined
+                          : Icons.bookmark_border_outlined,
+                      color: checkIfSaved ? Colors.blue[300] : Colors.grey,
                     ),
                   ),
                   SizedBox(width: 5),
