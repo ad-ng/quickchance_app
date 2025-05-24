@@ -15,6 +15,7 @@ import 'package:quickchance_app/features/auth/presentation/pages/register_page.d
 import 'package:quickchance_app/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:quickchance_app/features/home/data/datasources/remote/opportunitySocketService.dart';
 import 'package:quickchance_app/features/home/data/repositories/opps_repo_impl.dart';
+import 'package:quickchance_app/features/home/presentation/bloc/commentCubit.dart';
 import 'package:quickchance_app/features/home/presentation/bloc/opportunity_cubit.dart';
 import 'package:quickchance_app/features/home/presentation/pages/comment_page.dart';
 import 'package:quickchance_app/features/home/presentation/pages/landing_page.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ThemeCubit()),
         BlocProvider(create: (context) => OpportunityCubit(oppsRepo)),
         BlocProvider(create: (context) => SearchCubit(searchRepo)),
+        BlocProvider(create: (context) => CommentCubit(oppsRepo)),
       ],
       child: BlocBuilder<ThemeCubit, ThemeModeState>(
         builder: (context, themeMode) {

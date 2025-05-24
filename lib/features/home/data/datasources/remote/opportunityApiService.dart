@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickchance_app/conf/dio/dioservice.dart';
 import 'package:quickchance_app/features/home/data/models/commentModel.dart';
 import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
+import 'package:quickchance_app/features/home/presentation/bloc/commentCubit.dart';
 
 class OpportunityApiService {
   final Dio _dio = DioService.instance.dio;
@@ -61,12 +64,16 @@ class OpportunityApiService {
     }
   }
 
-  Future<List<CommentModel>> fetchAllComments(int oppId) async {
+  Future<List<CommentModel>> fetchAllComments(
+    int oppId,
+    BuildContext context,
+  ) async {
     try {
       final response = await _dio.get('/comment/$oppId');
       final dataJson = response.data['data'];
 
       if (dataJson != null && dataJson is List) {
+        BlocProvider.of<CommentCubit>(context).fetchAllComments(oppId, context);
         return dataJson.map((json) => CommentModel.fromMap(json)).toList();
       } else {
         throw Exception(

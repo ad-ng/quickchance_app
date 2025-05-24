@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:quickchance_app/features/home/data/datasources/remote/opportunityApiService.dart';
 import 'package:quickchance_app/features/home/data/models/commentModel.dart';
 import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
@@ -20,7 +21,10 @@ class OppsRepoImpl implements OppsRepo {
   }
 
   @override
-  Future<List<CommentModel>> fetchAllComments(int oppId) async {
-    return await OpportunityApiService().fetchAllComments(oppId);
+  Future<List<CommentModel>> fetchAllComments(
+    int oppId,
+    BuildContext context,
+  ) async {
+    return await OpportunityApiService().fetchAllComments(oppId, context);
   }
 }

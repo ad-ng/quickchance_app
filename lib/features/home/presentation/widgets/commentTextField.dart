@@ -20,11 +20,10 @@ class _CommentTextFieldState extends State<CommentTextField> {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        height: 100,
         width: MediaQuery.of(context).size.width * 0.9,
         child: TextField(
           controller: widget.commentController,
-          maxLines: 4,
+          maxLines: 3,
           minLines: 1,
           decoration: InputDecoration(
             hintText: 'write your comment here.....',
@@ -43,7 +42,6 @@ class _CommentTextFieldState extends State<CommentTextField> {
                   ),
                 );
                 widget.commentController.clear();
-                Navigator.pop(context);
               },
               icon: Icon(Icons.send_rounded),
             ),

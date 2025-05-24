@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quickchance_app/features/home/presentation/bloc/opportunity_cubit.dart';
+import 'package:quickchance_app/features/home/presentation/bloc/commentCubit.dart';
 import 'package:quickchance_app/features/home/presentation/widgets/commentCard.dart';
 import 'package:quickchance_app/features/home/presentation/widgets/commentTextField.dart';
 
@@ -16,7 +16,7 @@ class _CommentPageState extends State<CommentPage> {
   TextEditingController commentController = TextEditingController();
   @override
   void initState() {
-    BlocProvider.of<OpportunityCubit>(context).fetchAllComments(widget.oppId);
+    BlocProvider.of<CommentCubit>(context).fetchAllComments(widget.oppId, context);
     super.initState();
   }
 
@@ -31,16 +31,17 @@ class _CommentPageState extends State<CommentPage> {
             commentController: commentController,
             oppId: widget.oppId,
           ),
+          SizedBox(height: 20),
           Expanded(
-            child: BlocBuilder<OpportunityCubit, OpportunityState>(
+            child: BlocBuilder<CommentCubit, CommentState>(
               builder: (context, state) {
-                if (state is OpportunityCommentLoading) {
+                if (state is CommentLoading) {
                   return Center(child: CircularProgressIndicator.adaptive());
                 }
-                if (state is OpportunityCommentError) {
+                if (state is CommentError) {
                   return Text(state.error);
                 }
-                if (state is OpportunityCommentSuccess) {
+                if (state is CommentSuccess) {
                   return ListView.builder(
                     itemCount: state.response.length,
                     itemBuilder:
