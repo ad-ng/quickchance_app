@@ -16,7 +16,9 @@ class _CommentPageState extends State<CommentPage> {
   TextEditingController commentController = TextEditingController();
   @override
   void initState() {
-    BlocProvider.of<CommentCubit>(context).fetchAllComments(widget.oppId, context);
+    BlocProvider.of<CommentCubit>(
+      context,
+    ).fetchAllComments(widget.oppId, context);
     super.initState();
   }
 
@@ -42,6 +44,11 @@ class _CommentPageState extends State<CommentPage> {
                   return Text(state.error);
                 }
                 if (state is CommentSuccess) {
+                  if (state.response.length == 0) {
+                    return Center(
+                      child: Image.asset('././lib/images/no_comment.png'),
+                    );
+                  }
                   return ListView.builder(
                     itemCount: state.response.length,
                     itemBuilder:

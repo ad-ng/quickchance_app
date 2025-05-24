@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:popover/popover.dart';
 import 'package:quickchance_app/features/home/data/models/commentModel.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class CommentCard extends StatelessWidget {
   final CommentModel comment;
@@ -26,7 +27,13 @@ class CommentCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(comment.body),
-              // Text(comment.createdAt!, style: TextStyle(color: Colors.grey)),
+              Text(
+                timeago.format(DateTime.parse(comment.createdAt!)),
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ],
           ),
           isThreeLine: true,
@@ -56,7 +63,7 @@ class CommentCard extends StatelessWidget {
                                     ),
                                   ),
                                   SizedBox(width: 8),
-                                  Icon(Icons.flag),
+                                  Icon(Icons.flag, color: Colors.black),
                                 ],
                               ),
                               SizedBox(height: 5),
@@ -71,7 +78,7 @@ class CommentCard extends StatelessWidget {
                                     ),
                                   ),
                                   SizedBox(width: 8),
-                                  Icon(Icons.delete),
+                                  Icon(Icons.delete, color: Colors.black),
                                 ],
                               ),
                             ],

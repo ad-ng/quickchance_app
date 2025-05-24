@@ -7,14 +7,14 @@ class CommentModel {
   int? id;
   int oppId;
   String body;
-  // String? createdAt;
+  String? createdAt;
   UserModel? user;
 
   CommentModel({
     this.id,
     required this.oppId,
     required this.body,
-    // this.createdAt,
+    this.createdAt,
     this.user,
   });
 
@@ -27,7 +27,7 @@ class CommentModel {
       id: map['id'] as int,
       oppId: map['oppId'] as int,
       body: map['body'] as String,
-      // createdAt: map['createdAt'] as String,
+      createdAt: map['createdAt'] as String,
       user: UserModel.fromJson(map['user'] as Map<String, dynamic>),
     );
   }
