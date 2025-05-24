@@ -7,8 +7,16 @@ class CommentModel {
   int? id;
   int oppId;
   String body;
+  // String? createdAt;
   UserModel? user;
-  CommentModel({this.id, required this.oppId, required this.body, this.user});
+
+  CommentModel({
+    this.id,
+    required this.oppId,
+    required this.body,
+    // this.createdAt,
+    this.user,
+  });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{'id': id, 'oppId': oppId, 'body': body};
@@ -19,6 +27,7 @@ class CommentModel {
       id: map['id'] as int,
       oppId: map['oppId'] as int,
       body: map['body'] as String,
+      // createdAt: map['createdAt'] as String,
       user: UserModel.fromJson(map['user'] as Map<String, dynamic>),
     );
   }

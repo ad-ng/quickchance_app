@@ -7,23 +7,31 @@ class CommentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Container(
-        height: 60,
-        width: 60,
-        margin: EdgeInsets.only(bottom: 10),
-        decoration: BoxDecoration(color: Colors.amber, shape: BoxShape.circle),
+    return Padding(
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 4),
+      child: Card(
+        child: ListTile(
+          leading: ClipRRect(
+            borderRadius: BorderRadius.circular(50),
+            child: Image.network(
+              comment.user!.profileImg!,
+              height: 50,
+              width: 50,
+              fit: BoxFit.cover,
+            ),
+          ),
+          title: Text(comment.user!.fullname!),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(comment.body),
+              // Text(comment.createdAt!, style: TextStyle(color: Colors.grey)),
+            ],
+          ),
+          isThreeLine: true,
+          trailing: Icon(Icons.more_vert_rounded),
+        ),
       ),
-      title: Text(comment.user!.fullname!),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(comment.body),
-          Text('2 hours ago', style: TextStyle(color: Colors.grey)),
-        ],
-      ),
-      isThreeLine: true,
-      trailing: Icon(Icons.more_vert_rounded),
     );
   }
 }
