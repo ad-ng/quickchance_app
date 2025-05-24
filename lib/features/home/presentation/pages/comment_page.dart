@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quickchance_app/features/home/presentation/widgets/commentCard.dart';
 import 'package:quickchance_app/features/home/presentation/widgets/commentTextField.dart';
 
 class CommentPage extends StatefulWidget {
@@ -19,6 +20,12 @@ class _CommentPageState extends State<CommentPage> {
         children: [
           SizedBox(height: 10),
           CommentTextField(commentController: commentController),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 4,
+              itemBuilder: (context, index) => CommentCard(),
+            ),
+          ),
         ],
       ),
     );
