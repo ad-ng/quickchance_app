@@ -14,6 +14,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   bool isDarkMode = false;
   bool isNotification = false;
+  bool isNotUser = false;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -101,6 +102,26 @@ class _ProfilePageState extends State<ProfilePage> {
               },
             ),
           ),
+          FutureBuilder(
+            future: UserPreferences().getLocalUser(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data!.role != "user") {
+                  return ListTile(
+                    onTap: () => context.pushNamed('dashboardPage'),
+                    leading: Icon(Icons.dashboard_outlined),
+                    title: Text(
+                      'Dashboard',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    trailing: Icon(Icons.chevron_right_rounded),
+                  );
+                }
+              }
+              return SizedBox.shrink();
+            },
+          ),
+
           ListTile(
             onTap: () => context.pushNamed('settingsPage'),
             leading: Icon(Icons.settings),
