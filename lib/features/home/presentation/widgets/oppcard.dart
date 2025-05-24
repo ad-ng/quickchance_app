@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:quickchance_app/features/home/data/datasources/remote/opportunityApiService.dart';
 import 'package:quickchance_app/features/home/data/datasources/remote/opportunitySocketService.dart';
 import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
@@ -202,7 +203,14 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
                   SizedBox(width: 5),
                   Text('${_likeCount}'),
                   SizedBox(width: 15),
-                  Icon(Icons.comment, color: Colors.grey),
+                  GestureDetector(
+                    onTap:
+                        () => context.pushNamed(
+                          'commentPage',
+                          pathParameters: {'oppId': "1"},
+                        ),
+                    child: Icon(Icons.comment, color: Colors.grey),
+                  ),
                   SizedBox(width: 5),
                   FutureBuilder(
                     future: OpportunityApiService().totalComments(
