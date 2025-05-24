@@ -19,7 +19,15 @@ class OpportunityCubit extends Cubit<OpportunityState> {
     }
   }
 
-  Future fetchAllComments(int oppId) async {}
+  Future fetchAllComments(int oppId) async {
+    emit(OpportunityCommentLoading());
+    try {
+      final response = await oppsRepo.fetchAllComments(oppId);
+      emit(OpportunityCommentSuccess(response));
+    } catch (e) {
+      emit(OpportunityCommentError(e.toString()));
+    }
+  }
 }
 
 abstract class OpportunityState {}

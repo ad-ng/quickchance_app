@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:quickchance_app/features/home/data/models/commentModel.dart';
 
 class CommentCard extends StatelessWidget {
-  const CommentCard({super.key});
+  final CommentModel comment;
+  const CommentCard({super.key, required this.comment});
 
   @override
   Widget build(BuildContext context) {
@@ -12,13 +14,11 @@ class CommentCard extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(color: Colors.amber, shape: BoxShape.circle),
       ),
-      title: Text('user 1'),
+      title: Text(comment.user.fullname!),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'hdhhdgdg dhdhhdhd dhdhhdhhdhhd hdhdhhhd hdhhdhhdhd hdhdhhdhhd dhdhhdhhd',
-          ),
+          Text(comment.body),
           Text('2 hours ago', style: TextStyle(color: Colors.grey)),
         ],
       ),
