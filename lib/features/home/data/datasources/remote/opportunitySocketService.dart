@@ -119,4 +119,17 @@ class OpportunitySocketService {
       print('👍 Liked: ${data['isLiked']}');
     });
   }
+
+  void getCommentCount(int opportunityId) async {
+    var localUser = await _userPreferences.getLocalUser();
+    int userId = localUser!.id;
+    socket.emit('getCommentCount', {
+      'opportunityId': opportunityId,
+      'userId': userId,
+    });
+
+    socket.on('countCommentReply', (data) {
+      print('opportunity comment: $data');
+    });
+  }
 }

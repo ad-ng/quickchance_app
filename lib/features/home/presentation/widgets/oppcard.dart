@@ -22,6 +22,7 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
 
   int _likeCount = 0;
   int _savedCount = 0;
+  int _commentCount = 0;
   bool checkIfLiked = false;
   bool checkIfSaved = false;
   final likeSocketService = OpportunitySocketService();
@@ -33,6 +34,7 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
     likeSocketService.joinOpportunity(widget.opps.id!);
     likeSocketService.getLikeCount(widget.opps.id!);
     likeSocketService.checkIfLiked(widget.opps.id!);
+    likeSocketService.getCommentCount(widget.opps.id!);
     savedSocketService.checkIfSaved(widget.opps.id!);
     savedSocketService.getSavedCount(widget.opps.id!);
 
@@ -41,6 +43,15 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
       if (data['opportunityId'] == widget.opps.id) {
         setState(() {
           _likeCount = data['likeCount']['TotalLikes'];
+        });
+      }
+    });
+
+    // Listen to comments
+    likeSocketService.socket.on('countCommentReply', (data) {
+      if (data['opportunityId'] == widget.opps.id) {
+        setState(() {
+          _commentCount = data['commentCount'];
         });
       }
     });
@@ -74,6 +85,7 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
   void dispose() {
     likeSocketService.socket.off('countLikesReply');
     likeSocketService.socket.off('checkLikesReply');
+    likeSocketService.socket.off('countCommentReply');
     savedSocketService.socket.off('checkSavedReply');
     savedSocketService.socket.off('countSavedReply');
     super.dispose();
@@ -212,7 +224,7 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
                     child: Icon(Icons.comment, color: Colors.grey),
                   ),
                   SizedBox(width: 5),
-
+                  Text('$_commentCount'),
                   SizedBox(width: 15),
                   GestureDetector(
                     onTap: () async {
