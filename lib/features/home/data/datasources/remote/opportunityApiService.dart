@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:quickchance_app/conf/dio/dioservice.dart';
+import 'package:quickchance_app/features/home/data/models/commentModel.dart';
 import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
 
 class OpportunityApiService {
@@ -56,6 +57,27 @@ class OpportunityApiService {
     } on DioException catch (e) {
       throw e.message!;
     } catch (e) {
+      return Future.error('Something went wrong: $e');
+    }
+  }
+
+  Future<List<CommentModel>> fetchAllComments(int oppId) async {
+    try {
+      final response = await _dio.get('/comment/$oppId');
+      final dataJson = response.data['data'];
+
+      if (dataJson != null && dataJson is List) {
+        return dataJson.map((json) => CommentModel.fromJson(json)).toList();
+      } else {
+        throw Exception(
+          'Expected a list of properties but got ${dataJson.runtimeType}',
+        );
+      }
+    } on DioException catch (e) {
+      // Handle Dio errors
+      throw e.message!;
+    } catch (e) {
+      // Catch other errors
       return Future.error('Something went wrong: $e');
     }
   }
