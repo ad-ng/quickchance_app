@@ -212,16 +212,7 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
                     child: Icon(Icons.comment, color: Colors.grey),
                   ),
                   SizedBox(width: 5),
-                  FutureBuilder(
-                    future: OpportunityApiService().totalComments(
-                      widget.opps.id!,
-                    ),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) return const Text('0');
-                      if (!snapshot.hasData) return const Text('0');
-                      return Text('${snapshot.data}');
-                    },
-                  ),
+
                   SizedBox(width: 15),
                   GestureDetector(
                     onTap: () async {
