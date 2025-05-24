@@ -81,4 +81,19 @@ class OpportunityApiService {
       return Future.error('Something went wrong: $e');
     }
   }
+
+  Future postComment(CommentModel commentModel) async {
+    try {
+      final response = await _dio.post('/comment', data: commentModel.toMap());
+      final dataJson = response.data['data'];
+
+      return dataJson;
+    } on DioException catch (e) {
+      // Handle Dio errors
+      throw e.message!;
+    } catch (e) {
+      // Catch other errors
+      return Future.error('Something went wrong: $e');
+    }
+  }
 }
