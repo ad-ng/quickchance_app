@@ -207,7 +207,7 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
                     onTap:
                         () => context.pushNamed(
                           'commentPage',
-                          pathParameters: {'oppId': "1"},
+                          pathParameters: {'oppId': widget.opps.id.toString()},
                         ),
                     child: Icon(Icons.comment, color: Colors.grey),
                   ),
