@@ -7,13 +7,8 @@ class CommentModel {
   int? id;
   int oppId;
   String body;
-  UserModel user;
-  CommentModel({
-    this.id,
-    required this.oppId,
-    required this.body,
-    required this.user,
-  });
+  UserModel? user;
+  CommentModel({this.id, required this.oppId, required this.body, this.user});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{'id': id, 'oppId': oppId, 'body': body};

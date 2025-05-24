@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:quickchance_app/features/home/data/datasources/remote/opportunityApiService.dart';
+import 'package:quickchance_app/features/home/data/models/commentModel.dart';
 
 class CommentTextField extends StatefulWidget {
   final TextEditingController commentController;
-  const CommentTextField({super.key, required this.commentController});
+  final int oppId;
+  const CommentTextField({
+    super.key,
+    required this.commentController,
+    required this.oppId,
+  });
 
   @override
   State<CommentTextField> createState() => _CommentTextFieldState();
@@ -28,7 +35,16 @@ class _CommentTextFieldState extends State<CommentTextField> {
               borderRadius: BorderRadius.circular(20),
             ),
             suffixIcon: IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                OpportunityApiService().postComment(
+                  CommentModel(
+                    oppId: widget.oppId,
+                    body: widget.commentController.text,
+                  ),
+                );
+                widget.commentController.clear();
+                Navigator.pop(context);
+              },
               icon: Icon(Icons.send_rounded),
             ),
           ),

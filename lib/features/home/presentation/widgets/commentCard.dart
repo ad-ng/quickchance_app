@@ -14,7 +14,7 @@ class CommentCard extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(color: Colors.amber, shape: BoxShape.circle),
       ),
-      title: Text(comment.user.fullname!),
+      title: Text(comment.user!.fullname!),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
