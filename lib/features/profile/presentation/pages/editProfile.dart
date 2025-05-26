@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickchance_app/features/auth/data/model/user_model.dart';
 import 'package:quickchance_app/features/auth/presentation/widgets/myInput.dart';
 import 'package:quickchance_app/features/profile/data/datasource/profileapiservice.dart';
 import 'package:quickchance_app/features/profile/data/model/updateUserModel.dart';
+import 'package:quickchance_app/features/profile/presentation/bloc/profilecubit.dart';
 import 'package:quickchance_app/features/profile/presentation/widgets/dob_input.dart';
 import 'package:quickchance_app/features/profile/presentation/widgets/gender_picker.dart';
 
@@ -17,25 +19,20 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   bool isLoading = false;
   @override
+  void initState() {
+    BlocProvider.of<ProfileCubit>(context).getLocalUser();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    TextEditingController username = TextEditingController(
-      text: widget.currentUser.username,
-    );
-    TextEditingController fullname = TextEditingController(
-      text: widget.currentUser.fullname,
-    );
-    TextEditingController location = TextEditingController(
-      text: widget.currentUser.location,
-    );
-    TextEditingController phoneNumber = TextEditingController(
-      text: widget.currentUser.phoneNumber,
-    );
-    TextEditingController dob = TextEditingController(
-      text: widget.currentUser.dob,
-    );
-    TextEditingController gender = TextEditingController(
-      text: widget.currentUser.gender,
-    );
+    TextEditingController username = TextEditingController();
+    TextEditingController fullname = TextEditingController();
+    TextEditingController location = TextEditingController();
+    TextEditingController phoneNumber = TextEditingController();
+    TextEditingController dob = TextEditingController();
+    TextEditingController gender = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(title: Text('Edit Profile'), centerTitle: true),
       body: SingleChildScrollView(
@@ -50,11 +47,19 @@ class _EditProfileState extends State<EditProfile> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
             ),
-            MyInput(
-              hintText: 'username',
-              suffixIcon: Icon(Icons.person),
-              isPassword: false,
-              textEditingController: username,
+            BlocBuilder<ProfileCubit, ProfileState>(
+              builder: (context, state) {
+                if (state is ProfileSuccess) {
+                  username.text = state.response.username!;
+                  return MyInput(
+                    hintText: 'username',
+                    suffixIcon: Icon(Icons.person),
+                    isPassword: false,
+                    textEditingController: username,
+                  );
+                }
+                return SizedBox.shrink();
+              },
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20),
@@ -63,11 +68,19 @@ class _EditProfileState extends State<EditProfile> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
             ),
-            MyInput(
-              hintText: 'Full name',
-              suffixIcon: Icon(Icons.person),
-              isPassword: false,
-              textEditingController: fullname,
+            BlocBuilder<ProfileCubit, ProfileState>(
+              builder: (context, state) {
+                if (state is ProfileSuccess) {
+                  fullname.text = state.response.fullname!;
+                  return MyInput(
+                    hintText: 'Full name',
+                    suffixIcon: Icon(Icons.person),
+                    isPassword: false,
+                    textEditingController: fullname,
+                  );
+                }
+                return SizedBox.shrink();
+              },
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20),
@@ -76,11 +89,19 @@ class _EditProfileState extends State<EditProfile> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
             ),
-            MyInput(
-              hintText: 'location',
-              suffixIcon: Icon(Icons.location_on_rounded),
-              isPassword: false,
-              textEditingController: location,
+            BlocBuilder<ProfileCubit, ProfileState>(
+              builder: (context, state) {
+                if (state is ProfileSuccess) {
+                  location.text = state.response.location!;
+                  return MyInput(
+                    hintText: 'location',
+                    suffixIcon: Icon(Icons.location_on_rounded),
+                    isPassword: false,
+                    textEditingController: location,
+                  );
+                }
+                return SizedBox.shrink();
+              },
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20),
@@ -89,13 +110,20 @@ class _EditProfileState extends State<EditProfile> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
             ),
-            MyInput(
-              hintText: 'Phone number',
-              suffixIcon: Icon(Icons.phone_outlined),
-              isPassword: false,
-              textEditingController: phoneNumber,
+            BlocBuilder<ProfileCubit, ProfileState>(
+              builder: (context, state) {
+                if (state is ProfileSuccess) {
+                  phoneNumber.text = state.response.phoneNumber!;
+                  return MyInput(
+                    hintText: 'Phone number',
+                    suffixIcon: Icon(Icons.phone),
+                    isPassword: false,
+                    textEditingController: phoneNumber,
+                  );
+                }
+                return SizedBox.shrink();
+              },
             ),
-
             Row(
               children: [
                 Column(
@@ -112,7 +140,15 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                       ),
                     ),
-                    DobInput(dobController: dob),
+                    BlocBuilder<ProfileCubit, ProfileState>(
+                      builder: (context, state) {
+                        if (state is ProfileSuccess) {
+                          dob.text = state.response.dob!;
+                          return DobInput(dobController: dob);
+                        }
+                        return SizedBox.shrink();
+                      },
+                    ),
                   ],
                 ),
                 SizedBox(width: 10),
@@ -126,7 +162,15 @@ class _EditProfileState extends State<EditProfile> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    GenderPicker(genderController: gender),
+                    BlocBuilder<ProfileCubit, ProfileState>(
+                      builder: (context, state) {
+                        if (state is ProfileSuccess) {
+                          gender.text = state.response.gender!;
+                          return GenderPicker(genderController: gender);
+                        }
+                        return SizedBox.shrink();
+                      },
+                    ),
                   ],
                 ),
               ],
@@ -166,6 +210,9 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                       context,
                     );
+                    setState(() {
+                      isLoading = false;
+                    });
                   }
                 }
               },
