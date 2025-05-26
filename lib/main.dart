@@ -21,6 +21,7 @@ import 'package:quickchance_app/features/home/presentation/bloc/opportunity_cubi
 import 'package:quickchance_app/features/home/presentation/pages/comment_page.dart';
 import 'package:quickchance_app/features/home/presentation/pages/landing_page.dart';
 import 'package:quickchance_app/features/notifications/presentation/pages/notification_page.dart';
+import 'package:quickchance_app/features/profile/presentation/bloc/profilecubit.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/changePassword.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/editProfile.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/settingsPage.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
   final oppsRepo = OppsRepoImpl();
   final searchRepo = SearchRepoImpl();
   final socketService = OpportunitySocketService();
+  final _userPreferences = UserPreferences();
   @override
   Widget build(BuildContext context) {
     print('app running');
@@ -55,6 +57,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => OpportunityCubit(oppsRepo)),
         BlocProvider(create: (context) => SearchCubit(searchRepo)),
         BlocProvider(create: (context) => CommentCubit(oppsRepo)),
+        BlocProvider(create: (context) => ProfileCubit(_userPreferences)),
       ],
       child: BlocBuilder<ThemeCubit, ThemeModeState>(
         builder: (context, themeMode) {

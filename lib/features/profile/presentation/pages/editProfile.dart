@@ -164,6 +164,7 @@ class _EditProfileState extends State<EditProfile> {
                         phoneNumber: phoneNumber.text,
                         username: username.text,
                       ),
+                      context,
                     );
                   }
                 }
