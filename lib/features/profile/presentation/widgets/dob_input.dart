@@ -36,7 +36,7 @@ class _DobInputState extends State<DobInput> {
 
       if (picked != null) {
         setState(() {
-          widget.dobController.text = '${picked.toIso8601String()}z';
+          widget.dobController.text = '${picked.toIso8601String()}Z';
         });
       }
     }

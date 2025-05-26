@@ -7,6 +7,7 @@ import 'package:quickchance_app/core/dark_mode.dart';
 import 'package:quickchance_app/core/light_mode.dart';
 import 'package:quickchance_app/core/theme_cubit.dart';
 import 'package:quickchance_app/features/auth/data/datasource/local/tokenstore.dart';
+import 'package:quickchance_app/features/auth/data/datasource/local/userpreferences.dart';
 import 'package:quickchance_app/features/auth/data/repository/auth_repo_impl.dart';
 import 'package:quickchance_app/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/forgot_password.dart';
@@ -27,11 +28,12 @@ import 'package:quickchance_app/features/search/data/repository/search_repo_impl
 import 'package:quickchance_app/features/search/presentation/bloc/search_cubit.dart';
 
 var tokenValue;
-
+var locarUser;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DioService.instance.setup();
   tokenValue = await TokenStore.getToken();
+  locarUser = await UserPreferences().getLocalUser();
   SocketService().connect();
   runApp(MyApp());
 }
@@ -45,6 +47,7 @@ class MyApp extends StatelessWidget {
   final socketService = OpportunitySocketService();
   @override
   Widget build(BuildContext context) {
+    print('app running');
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit(_authRepo)),
@@ -105,7 +108,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       name: 'editProfile',
       path: '/editProfile',
-      builder: (context, state) => EditProfile(),
+      builder: (context, state) => EditProfile(currentUser: locarUser),
     ),
     GoRoute(
       name: 'settingsPage',

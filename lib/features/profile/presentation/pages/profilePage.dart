@@ -143,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ListTile(
                           leading: Icon(Icons.location_on_outlined),
                           title: Text('Location'),
-                          trailing: Text('Kigali - Rwanda'),
+                          trailing: Text(snapshot.data!.location!),
                         ),
                         ListTile(
                           leading: Icon(Icons.email_outlined),
