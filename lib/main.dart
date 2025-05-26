@@ -29,12 +29,10 @@ import 'package:quickchance_app/features/search/data/repository/search_repo_impl
 import 'package:quickchance_app/features/search/presentation/bloc/search_cubit.dart';
 
 var tokenValue;
-var locarUser;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DioService.instance.setup();
   tokenValue = await TokenStore.getToken();
-  locarUser = await UserPreferences().getLocalUser();
   SocketService().connect();
   runApp(MyApp());
 }
@@ -111,7 +109,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       name: 'editProfile',
       path: '/editProfile',
-      builder: (context, state) => EditProfile(currentUser: locarUser),
+      builder: (context, state) => EditProfile(),
     ),
     GoRoute(
       name: 'settingsPage',

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quickchance_app/features/auth/data/model/user_model.dart';
 import 'package:quickchance_app/features/auth/presentation/widgets/myInput.dart';
 import 'package:quickchance_app/features/profile/data/datasource/profileapiservice.dart';
 import 'package:quickchance_app/features/profile/data/model/updateUserModel.dart';
@@ -9,8 +8,7 @@ import 'package:quickchance_app/features/profile/presentation/widgets/dob_input.
 import 'package:quickchance_app/features/profile/presentation/widgets/gender_picker.dart';
 
 class EditProfile extends StatefulWidget {
-  final UserModel currentUser;
-  const EditProfile({super.key, required this.currentUser});
+  const EditProfile({super.key});
 
   @override
   State<EditProfile> createState() => _EditProfileState();
