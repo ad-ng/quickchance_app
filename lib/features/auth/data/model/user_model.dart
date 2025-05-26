@@ -4,7 +4,7 @@ class UserModel {
   String? username;
   String? email;
   String? gender;
-  String? address;
+  String? location;
   String? dob;
   String? phoneNumber;
   String? profileImg;
@@ -19,7 +19,7 @@ class UserModel {
     this.username,
     this.email,
     this.gender,
-    this.address,
+    this.location,
     this.dob,
     this.phoneNumber,
     this.profileImg,
@@ -37,7 +37,7 @@ class UserModel {
       username: json['username'] ?? 'Unknown',
       email: json['email'] ?? 'unknown@example.com',
       gender: json['gender'] ?? 'Not Specified',
-      address: json['address'] ?? 'Not Provided',
+      location: json['location'] ?? 'Not Provided',
       dob: json['dob'] ?? '1993-02-03T02:43:41.238Z',
       phoneNumber: json['phoneNumber'] ?? 'Unknown',
       profileImg:
@@ -58,7 +58,7 @@ class UserModel {
       'username': username ?? 'Unknown',
       'email': email ?? 'unknown@example.com',
       'gender': gender ?? 'Not Specified',
-      'address': address ?? 'Not Provided',
+      'location': location ?? 'Not Provided',
       'dob': dob ?? '1993-02-03T02:43:41.238Z',
       'phoneNumber': phoneNumber ?? 'Unknown',
       'profileImg':
