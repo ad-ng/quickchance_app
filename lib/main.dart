@@ -20,6 +20,8 @@ import 'package:quickchance_app/features/home/presentation/bloc/commentCubit.dar
 import 'package:quickchance_app/features/home/presentation/bloc/opportunity_cubit.dart';
 import 'package:quickchance_app/features/home/presentation/pages/comment_page.dart';
 import 'package:quickchance_app/features/home/presentation/pages/landing_page.dart';
+import 'package:quickchance_app/features/notifications/data/datasources/remote/notificationApiService.dart';
+import 'package:quickchance_app/features/notifications/presentation/bloc/eachNotificationCubit.dart';
 import 'package:quickchance_app/features/notifications/presentation/pages/notification_page.dart';
 import 'package:quickchance_app/features/profile/presentation/bloc/profilecubit.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/changePassword.dart';
@@ -45,6 +47,7 @@ class MyApp extends StatelessWidget {
   final searchRepo = SearchRepoImpl();
   final socketService = OpportunitySocketService();
   final _userPreferences = UserPreferences();
+  final _notificationApiService = NotificationApiService();
   @override
   Widget build(BuildContext context) {
     print('app running');
@@ -56,6 +59,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SearchCubit(searchRepo)),
         BlocProvider(create: (context) => CommentCubit(oppsRepo)),
         BlocProvider(create: (context) => ProfileCubit(_userPreferences)),
+        BlocProvider(
+          create: (context) => EachNotificationCubit(_notificationApiService),
+        ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeModeState>(
         builder: (context, themeMode) {
