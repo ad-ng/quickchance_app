@@ -50,7 +50,6 @@ class MyApp extends StatelessWidget {
   final _notificationApiService = NotificationApiService();
   @override
   Widget build(BuildContext context) {
-    print('app running');
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit(_authRepo)),

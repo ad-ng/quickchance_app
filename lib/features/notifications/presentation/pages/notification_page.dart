@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quickchance_app/features/notifications/data/datasources/remote/notificationApiService.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickchance_app/features/notifications/presentation/bloc/eachNotificationCubit.dart';
 import 'package:quickchance_app/features/notifications/presentation/widgets/notificationCard.dart';
 
 class NotificationPage extends StatefulWidget {
@@ -17,24 +18,20 @@ class _NotificationPageState extends State<NotificationPage> {
       body: Column(
         children: [
           Expanded(
-            child: FutureBuilder(
-              future: NotificationApiService().fetchAllUserNotification(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+            child: BlocBuilder<EachNotificationCubit, EachNotificationState>(
+              builder: (context, state) {
+                if (state is EachNotificationError) {
+                  return Center(child: Text(state.error));
                 }
-                if (snapshot.hasData) {
+
+                if (state is EachNotificationSuccess) {
                   return ListView.builder(
-                    itemCount: snapshot.data!.length,
+                    itemCount: state.response.length,
                     itemBuilder:
                         (context, index) => Notificationcard(
-                          userNotification: snapshot.data![index],
-                          key: ValueKey(snapshot.data![index].id),
+                          userNotification: state.response[index],
                         ),
                   );
-                }
-                if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
                 }
                 return SizedBox.shrink();
               },
