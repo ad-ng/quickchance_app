@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:quickchance_app/features/notifications/data/models/eachnotification_model.dart';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class UserNotification {
   int? id;
@@ -8,6 +10,7 @@ class UserNotification {
   bool isRead;
   bool isLocalSent;
   String createdAt;
+  EachNotificationModel notification;
   UserNotification({
     this.id,
     required this.userId,
@@ -15,6 +18,7 @@ class UserNotification {
     required this.isRead,
     required this.isLocalSent,
     required this.createdAt,
+    required this.notification,
   });
 
   Map<String, dynamic> toMap() {
@@ -25,6 +29,7 @@ class UserNotification {
       'isRead': isRead,
       'isLocalSent': isLocalSent,
       'createdAt': createdAt,
+      'notification': notification.toMap(),
     };
   }
 
@@ -36,6 +41,9 @@ class UserNotification {
       isRead: map['isRead'] as bool,
       isLocalSent: map['isLocalSent'] as bool,
       createdAt: map['createdAt'] as String,
+      notification: EachNotificationModel.fromMap(
+        map['notification'] as Map<String, dynamic>,
+      ),
     );
   }
 
