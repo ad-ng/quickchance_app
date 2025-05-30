@@ -30,7 +30,6 @@ class _DashCatPageState extends State<DashCatPage> {
                           leading: Text('${snapshot.data![index].id!}'),
                           trailing: SizedBox(
                             width: 100,
-                            height: 20,
                             child: Row(
                               children: [
                                 IconButton(
@@ -38,7 +37,11 @@ class _DashCatPageState extends State<DashCatPage> {
                                   icon: Icon(Icons.edit),
                                 ),
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    await DashboardApiService().deleteCategory(
+                                      snapshot.data![index].id!,
+                                    );
+                                  },
                                   icon: Icon(Icons.delete),
                                 ),
                               ],
