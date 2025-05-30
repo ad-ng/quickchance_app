@@ -40,6 +40,7 @@ class _DashboardPageState extends State<DashboardPage> {
             padding: const EdgeInsets.only(left: 8, right: 8),
             child: Card(
               child: ListTile(
+                onTap: () => context.pushNamed('dashCatPage'),
                 leading: Icon(Icons.category_rounded),
                 title: Text('categories'),
                 trailing: Icon(Icons.chevron_right_outlined),
