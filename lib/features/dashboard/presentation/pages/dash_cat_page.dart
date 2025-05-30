@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quickchance_app/features/search/data/datasource/local/searchApiService.dart';
 
 class DashCatPage extends StatefulWidget {
   const DashCatPage({super.key});
@@ -10,6 +11,50 @@ class DashCatPage extends StatefulWidget {
 class _DashCatPageState extends State<DashCatPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(title: Text('Categories'), centerTitle: true),
+      body: Column(
+        children: [
+          Expanded(
+            child: FutureBuilder(
+              future: SearchApiService().fetchAllCategories(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder:
+                        (context, index) => ListTile(
+                          title: Text(snapshot.data![index].name),
+                          leading: Text('${snapshot.data![index].id!}'),
+                          trailing: SizedBox(
+                            width: 100,
+                            height: 20,
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.edit),
+                                ),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.delete),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                  );
+                }
+                return SizedBox.shrink();
+              },
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
+      ),
+    );
   }
 }
