@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quickchance_app/features/dashboard/data/datasources/remote/dashboardApiService.dart';
 import 'package:quickchance_app/features/search/data/datasource/local/searchApiService.dart';
 
 class DashCatPage extends StatefulWidget {
@@ -9,6 +10,7 @@ class DashCatPage extends StatefulWidget {
 }
 
 class _DashCatPageState extends State<DashCatPage> {
+  TextEditingController catName = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,14 +60,22 @@ class _DashCatPageState extends State<DashCatPage> {
             builder: (context) {
               return AlertDialog(
                 title: Text('Add New Category'),
-                content: Container(height: 40, width: 140, child: TextField()),
+                content: Container(
+                  height: 40,
+                  width: 140,
+                  child: TextField(controller: catName),
+                ),
                 actions: [
                   TextButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () {
+                      catName.clear();
+                      Navigator.pop(context);
+                    },
                     child: Text('Cancel'),
                   ),
                   TextButton(
                     onPressed: () {
+                      DashboardApiService().addCategory(catName.text);
                       Navigator.pop(context);
                     },
                     child: Text('Add'),

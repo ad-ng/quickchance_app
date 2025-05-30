@@ -23,4 +23,17 @@ class DashboardApiService {
       return new Future.error('error: ${e.toString()}');
     }
   }
+
+  Future addCategory(String catName) async {
+    try {
+      final response = await _dio.post('/category', data: {"name": catName});
+      final dataJson = response.data;
+
+      return dataJson;
+    } on DioException catch (error) {
+      throw error.message!;
+    } catch (e) {
+      return new Future.error('error: ${e.toString()}');
+    }
+  }
 }
