@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -18,6 +19,7 @@ class _DashboardPageState extends State<DashboardPage> {
             padding: const EdgeInsets.all(8.0),
             child: Card(
               child: ListTile(
+                onTap: () => context.pushNamed('dashUsersPage'),
                 leading: Icon(Icons.people),
                 title: Text('users'),
                 trailing: Icon(Icons.chevron_right_outlined),
