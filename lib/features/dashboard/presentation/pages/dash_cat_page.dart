@@ -52,7 +52,29 @@ class _DashCatPageState extends State<DashCatPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Add New Category'),
+                content: Container(height: 40, width: 140, child: TextField()),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Add'),
+                  ),
+                ],
+              );
+            },
+          );
+        },
         child: Icon(Icons.add),
       ),
     );
