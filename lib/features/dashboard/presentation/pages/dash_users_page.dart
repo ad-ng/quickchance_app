@@ -51,6 +51,7 @@ class _DashUsersPageState extends State<DashUsersPage> {
               ),
             ),
           ),
+          SizedBox(height: 10),
           Expanded(
             child: FutureBuilder(
               future: DashboardApiService().fetchAllUser(),
@@ -59,18 +60,26 @@ class _DashUsersPageState extends State<DashUsersPage> {
                   return ListView.builder(
                     itemCount: snapshot.data!.length,
                     itemBuilder:
-                        (context, index) => ListTile(
-                          title: Text(snapshot.data![index].email!),
-                          subtitle: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(snapshot.data![index].fullname!),
-                              Text(snapshot.data![index].role!),
-                            ],
-                          ),
-                          trailing: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.more_vert_outlined),
+                        (context, index) => Card(
+                          child: ListTile(
+                            title: Text(snapshot.data![index].email!),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(snapshot.data![index].fullname!),
+                                Text(snapshot.data![index].role!),
+                              ],
+                            ),
+                            trailing: SizedBox(
+                              width: 60,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.edit, color: Colors.blue[300]),
+                                  SizedBox(width: 10),
+                                  Icon(Icons.delete, color: Colors.red[300]),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                   );

@@ -30,9 +30,15 @@ class _DashOppPageState extends State<DashOppPage> {
                         (context, index) => ListTile(
                           title: Text(state.response[index].title),
                           subtitle: Text(state.response[index].user.email!),
-                          trailing: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.more_vert_outlined),
+                          trailing: SizedBox(
+                            width: 60,
+                            child: Row(
+                              children: [
+                                Icon(Icons.edit, color: Colors.blue[300]),
+                                SizedBox(width: 10),
+                                Icon(Icons.delete, color: Colors.red[300]),
+                              ],
+                            ),
                           ),
                         ),
                   );
