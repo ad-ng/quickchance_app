@@ -30,6 +30,7 @@ class _DashboardPageState extends State<DashboardPage> {
             padding: const EdgeInsets.only(left: 8, right: 8),
             child: Card(
               child: ListTile(
+                onTap: () => context.pushNamed('dashOppPage'),
                 leading: Icon(Icons.post_add_rounded),
                 title: Text('opportunities'),
                 trailing: Icon(Icons.chevron_right_outlined),

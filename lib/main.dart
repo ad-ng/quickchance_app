@@ -14,6 +14,7 @@ import 'package:quickchance_app/features/auth/presentation/pages/forgot_password
 import 'package:quickchance_app/features/auth/presentation/pages/login_page.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/register_page.dart';
 import 'package:quickchance_app/features/dashboard/presentation/pages/dash_cat_page.dart';
+import 'package:quickchance_app/features/dashboard/presentation/pages/dash_opp_page.dart';
 import 'package:quickchance_app/features/dashboard/presentation/pages/dash_users_page.dart';
 import 'package:quickchance_app/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:quickchance_app/features/home/data/datasources/remote/opportunitySocketService.dart';
@@ -155,6 +156,11 @@ final GoRouter _router = GoRouter(
       name: 'dashCatPage',
       path: '/dashCatPage',
       builder: (context, state) => DashCatPage(),
+    ),
+    GoRoute(
+      name: 'dashOppPage',
+      path: '/dashOppPage',
+      builder: (context, state) => DashOppPage(),
     ),
   ],
 );
