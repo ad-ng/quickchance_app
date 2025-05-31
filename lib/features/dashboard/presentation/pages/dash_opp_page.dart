@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:popover/popover.dart';
+import 'package:quickchance_app/features/dashboard/data/datasources/remote/dashboardApiService.dart';
 import 'package:quickchance_app/features/dashboard/presentation/widgets/mydate.dart';
 import 'package:quickchance_app/features/dashboard/presentation/widgets/status_selector.dart';
+import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
 import 'package:quickchance_app/features/search/data/datasource/local/searchApiService.dart';
 import 'package:quickchance_app/features/search/presentation/bloc/search_cubit.dart';
 import 'package:quickchance_app/features/search/presentation/widgets/mySearch.dart';
@@ -60,7 +62,7 @@ class _DashOppPageState extends State<DashOppPage> {
                     itemBuilder:
                         (context, index) => ListTile(
                           title: Text(state.response[index].title),
-                          subtitle: Text(state.response[index].user.email!),
+                          subtitle: Text(state.response[index].user!.email!),
                           trailing: SizedBox(
                             width: 60,
                             child: Row(
@@ -204,6 +206,17 @@ class _DashOppPageState extends State<DashOppPage> {
                   ),
                   TextButton(
                     onPressed: () {
+                      DashboardApiService().addOpportunity(
+                        OpportunityModel(
+                          title: titleController.text,
+                          description: descriptionController.text,
+                          status: statusController.text,
+                          categoryId: catId,
+                          deadline: deadlineController.text,
+                          location: locationController.text,
+                          oppLink: linkController.text,
+                        ),
+                      );
                       Navigator.pop(context);
                     },
                     child: Text('add'),

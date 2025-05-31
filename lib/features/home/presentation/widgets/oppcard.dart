@@ -121,7 +121,7 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.opps.user.fullname!,
+                        widget.opps.user!.fullname!,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(
@@ -154,18 +154,34 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
             style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
           ),
           Text(widget.opps.description),
-          Row(
-            children: [
-              Text(
-                'Deadline:   ',
-                style: TextStyle(fontWeight: FontWeight.bold),
+          (widget.opps.deadline == null)
+              ? SizedBox.shrink()
+              : Row(
+                children: [
+                  Text(
+                    'Deadline:   ',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    widget.opps.deadline!.substring(0, 10),
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
-              Text(
-                widget.opps.deadline!.substring(0, 10),
-                style: TextStyle(fontWeight: FontWeight.bold),
+          (widget.opps.oppLink == null)
+              ? SizedBox.shrink()
+              : Row(
+                children: [
+                  Text(
+                    'Link:   ',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    widget.opps.oppLink!,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
-            ],
-          ),
           Row(
             children: [
               Text(
@@ -185,7 +201,7 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
-                widget.opps.category.name,
+                widget.opps.category!.name,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ],

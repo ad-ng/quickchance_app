@@ -10,24 +10,26 @@ class OpportunityModel {
   String description;
   String? location;
   String? deadline;
-  int userId;
+  int? userId;
   String status;
   int categoryId;
+  String? oppLink;
   String? updatedAt;
-  UserModel user;
-  CategoryModel category;
+  UserModel? user;
+  CategoryModel? category;
   OpportunityModel({
     this.id,
     required this.title,
     required this.description,
     this.location,
     this.deadline,
-    required this.userId,
+    this.userId,
     required this.status,
     required this.categoryId,
+    this.oppLink,
     this.updatedAt,
-    required this.user,
-    required this.category,
+    this.user,
+    this.category,
   });
 
   Map<String, dynamic> toMap() {
@@ -40,6 +42,7 @@ class OpportunityModel {
       'userId': userId,
       'status': status,
       'categoryId': categoryId,
+      'oppLink': oppLink,
       'updatedAt': updatedAt,
     };
   }
@@ -54,6 +57,7 @@ class OpportunityModel {
       userId: map['userId'] as int,
       status: map['status'] as String,
       categoryId: map['categoryId'] as int,
+      oppLink: map['oppLink'] != null ? map['oppLink'] as String : null,
       updatedAt: map['updatedAt'] != null ? map['updatedAt'] as String : null,
       user: UserModel.fromJson(map['user'] as Map<String, dynamic>),
       category: CategoryModel.fromMap(map['category'] as Map<String, dynamic>),

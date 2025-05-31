@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:quickchance_app/conf/dio/dioservice.dart';
 import 'package:quickchance_app/features/auth/data/model/user_model.dart';
+import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
 
 class DashboardApiService {
   final Dio _dio = DioService.instance.dio;
@@ -40,6 +41,22 @@ class DashboardApiService {
   Future deleteCategory(int catId) async {
     try {
       final response = await _dio.delete('/category/$catId');
+      final dataJson = response.data;
+
+      return dataJson;
+    } on DioException catch (error) {
+      throw error.message!;
+    } catch (e) {
+      return new Future.error('error: ${e.toString()}');
+    }
+  }
+
+  Future addOpportunity(OpportunityModel opportunityModel) async {
+    try {
+      final response = await _dio.post(
+        '/opportunity',
+        data: opportunityModel.toMap(),
+      );
       final dataJson = response.data;
 
       return dataJson;
