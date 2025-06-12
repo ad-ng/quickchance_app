@@ -27,7 +27,7 @@ class _DashCatPageState extends State<DashCatPage> {
                     itemBuilder:
                         (context, index) => ListTile(
                           title: Text(snapshot.data![index].name),
-                          leading: Text('${snapshot.data![index].id!}'),
+                          leading: Text('${index + 1}'),
                           trailing: SizedBox(
                             width: 100,
                             child: Row(
@@ -37,11 +37,39 @@ class _DashCatPageState extends State<DashCatPage> {
                                   icon: Icon(Icons.edit),
                                 ),
                                 IconButton(
-                                  onPressed: () async {
-                                    await DashboardApiService().deleteCategory(
-                                      snapshot.data![index].id!,
-                                    );
-                                  },
+                                  onPressed:
+                                      () => showDialog(
+                                        context: context,
+                                        builder:
+                                            (context) => AlertDialog(
+                                              title: Text(
+                                                'Delete Confirmation',
+                                              ),
+                                              content: Text(
+                                                'Are you sure you want to delete this category?',
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text('Cancel'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    await DashboardApiService()
+                                                        .deleteCategory(
+                                                          snapshot
+                                                              .data![index]
+                                                              .id!,
+                                                        );
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text('Delete'),
+                                                ),
+                                              ],
+                                            ),
+                                      ),
                                   icon: Icon(Icons.delete),
                                 ),
                               ],
