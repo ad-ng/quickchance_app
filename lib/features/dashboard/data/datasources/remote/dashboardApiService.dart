@@ -38,6 +38,22 @@ class DashboardApiService {
     }
   }
 
+  Future updateCategory(String catName, int catId) async {
+    try {
+      final response = await _dio.patch(
+        '/category/$catId',
+        data: {"name": catName},
+      );
+      final dataJson = response.data;
+
+      return dataJson;
+    } on DioException catch (error) {
+      throw error.message!;
+    } catch (e) {
+      return new Future.error('error: ${e.toString()}');
+    }
+  }
+
   Future deleteCategory(int catId) async {
     try {
       final response = await _dio.delete('/category/$catId');

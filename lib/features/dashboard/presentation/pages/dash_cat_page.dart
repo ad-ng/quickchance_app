@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quickchance_app/features/dashboard/data/datasources/remote/dashboardApiService.dart';
+import 'package:quickchance_app/features/dashboard/domain/usecases/addUpdateCat.dart';
 import 'package:quickchance_app/features/search/data/datasource/local/searchApiService.dart';
 
 class DashCatPage extends StatefulWidget {
@@ -33,7 +34,16 @@ class _DashCatPageState extends State<DashCatPage> {
                             child: Row(
                               children: [
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    catName.text = snapshot.data![index].name;
+                                    addOrUpdateCategory(
+                                      context,
+                                      catName,
+                                      'Update',
+                                      'Update Category',
+                                      snapshot.data![index].id,
+                                    );
+                                  },
                                   icon: Icon(Icons.edit),
                                 ),
                                 IconButton(
@@ -85,37 +95,14 @@ class _DashCatPageState extends State<DashCatPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text('Add New Category'),
-                content: Container(
-                  height: 40,
-                  width: 140,
-                  child: TextField(controller: catName),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      catName.clear();
-                      Navigator.pop(context);
-                    },
-                    child: Text('Cancel'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      DashboardApiService().addCategory(catName.text);
-                      Navigator.pop(context);
-                    },
-                    child: Text('Add'),
-                  ),
-                ],
-              );
-            },
-          );
-        },
+        onPressed:
+            () => addOrUpdateCategory(
+              context,
+              catName,
+              'Add',
+              'Add New Category',
+              0,
+            ),
         child: Icon(Icons.add),
       ),
     );
