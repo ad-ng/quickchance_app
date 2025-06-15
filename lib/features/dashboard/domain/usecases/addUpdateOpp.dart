@@ -18,6 +18,7 @@ void addUpdateOpp(
   String nameOfAction,
   int? oppId,
 ) {
+  int outsideCatId = 0;
   showDialog(
     context: context,
     builder: (context) {
@@ -111,6 +112,10 @@ void addUpdateOpp(
                                         onToggle: (index) {
                                           setState(() {
                                             catId = cats[index!].id!;
+                                            outsideCatId = catId;
+                                            print(
+                                              'category id changing: ${outsideCatId}',
+                                            );
                                           });
                                         },
                                       ),
@@ -151,12 +156,13 @@ void addUpdateOpp(
                 onPressed: () {
                   // (nameOfAction == 'Save')
                   //     ?
+
                   DashboardApiService().addOpportunity(
                     OpportunityModel(
                       title: titleController.text,
                       description: descriptionController.text,
                       status: statusController.text,
-                      categoryId: catId,
+                      categoryId: outsideCatId,
                       deadline: deadlineController.text,
                       location: locationController.text,
                       oppLink: linkController.text,

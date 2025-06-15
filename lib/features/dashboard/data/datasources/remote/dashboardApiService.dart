@@ -71,12 +71,14 @@ class DashboardApiService {
     try {
       final response = await _dio.post(
         '/opportunity',
-        data: opportunityModel.toJson(),
+        data: opportunityModel.toMap(),
       );
       final dataJson = response.data;
 
       return dataJson;
     } on DioException catch (error) {
+      print('error for saving opp: ${error.message}');
+      print('error for saving opp: ${error.error.toString()}');
       throw error.message!;
     } catch (e) {
       return new Future.error('error: ${e.toString()}');

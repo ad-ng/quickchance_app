@@ -75,6 +75,7 @@ class _DashOppPageState extends State<DashOppPage> {
                                         state.response[index].deadline!;
                                     statusController.text =
                                         state.response[index].status;
+
                                     addUpdateOpp(
                                       context,
                                       titleController,
@@ -145,18 +146,19 @@ class _DashOppPageState extends State<DashOppPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed:
-            () => addUpdateOpp(
-              context,
-              titleController,
-              descriptionController,
-              locationController,
-              linkController,
-              deadlineController,
-              statusController,
-              'Save',
-              0,
-            ),
+        onPressed: () {
+          addUpdateOpp(
+            context,
+            titleController,
+            descriptionController,
+            locationController,
+            linkController,
+            deadlineController,
+            statusController,
+            'Save',
+            0,
+          );
+        },
         child: Icon(Icons.add),
       ),
     );
