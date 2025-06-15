@@ -154,32 +154,30 @@ void addUpdateOpp(
               ),
               TextButton(
                 onPressed: () {
-                  // (nameOfAction == 'Save')
-                  //     ?
-
-                  DashboardApiService().addOpportunity(
-                    OpportunityModel(
-                      title: titleController.text,
-                      description: descriptionController.text,
-                      status: statusController.text,
-                      categoryId: outsideCatId,
-                      deadline: deadlineController.text,
-                      location: locationController.text,
-                      oppLink: linkController.text,
-                    ),
-                  );
-                  // : DashboardApiService().updateOpportunity(
-                  //   OpportunityModel(
-                  //     title: titleController.text,
-                  //     description: descriptionController.text,
-                  //     status: statusController.text,
-                  //     categoryId: catId,
-                  //     deadline: deadlineController.text,
-                  //     location: locationController.text,
-                  //     oppLink: linkController.text,
-                  //   ),
-                  //   oppId!,
-                  // );
+                  (nameOfAction == 'Save')
+                      ? DashboardApiService().addOpportunity(
+                        OpportunityModel(
+                          title: titleController.text,
+                          description: descriptionController.text,
+                          status: statusController.text,
+                          categoryId: outsideCatId,
+                          deadline: deadlineController.text,
+                          location: locationController.text,
+                          oppLink: linkController.text,
+                        ),
+                      )
+                      : DashboardApiService().updateOpportunity(
+                        OpportunityModel(
+                          title: titleController.text,
+                          description: descriptionController.text,
+                          status: statusController.text,
+                          categoryId: outsideCatId,
+                          deadline: deadlineController.text,
+                          location: locationController.text,
+                          oppLink: linkController.text,
+                        ),
+                        oppId!,
+                      );
 
                   Navigator.pop(context);
                 },

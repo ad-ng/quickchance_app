@@ -77,8 +77,6 @@ class DashboardApiService {
 
       return dataJson;
     } on DioException catch (error) {
-      print('error for saving opp: ${error.message}');
-      print('error for saving opp: ${error.error.toString()}');
       throw error.message!;
     } catch (e) {
       return new Future.error('error: ${e.toString()}');
@@ -95,6 +93,8 @@ class DashboardApiService {
 
       return dataJson;
     } on DioException catch (error) {
+      print('error for updating opp: ${error.message}');
+      print('error for updating opp: ${error.error.toString()}');
       throw error.message!;
     } catch (e) {
       return new Future.error('error: ${e.toString()}');
