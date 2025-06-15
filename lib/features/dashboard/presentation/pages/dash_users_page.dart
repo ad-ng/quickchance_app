@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quickchance_app/features/dashboard/data/datasources/remote/dashboardApiService.dart';
+import 'package:quickchance_app/features/dashboard/domain/usecases/addUpdateUser.dart';
 
 class DashUsersPage extends StatefulWidget {
   const DashUsersPage({super.key});
@@ -92,6 +93,10 @@ class _DashUsersPageState extends State<DashUsersPage> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => addUpdateUser(context, 'Add New User', 'Register'),
+        child: Icon(Icons.add),
       ),
     );
   }
