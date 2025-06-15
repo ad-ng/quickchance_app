@@ -11,6 +11,11 @@ class DashUsersPage extends StatefulWidget {
 
 class _DashUsersPageState extends State<DashUsersPage> {
   TextEditingController searchQuery = TextEditingController();
+  TextEditingController fullname = TextEditingController();
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController email = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +80,35 @@ class _DashUsersPageState extends State<DashUsersPage> {
                               width: 60,
                               child: Row(
                                 children: [
-                                  Icon(Icons.edit, color: Colors.blue[300]),
+                                  GestureDetector(
+                                    onTap: () {
+                                      fullname.text =
+                                          snapshot.data![index].fullname!;
+                                      username.text =
+                                          snapshot.data![index].username!;
+                                      password.text =
+                                          snapshot.data![index].email!;
+                                      email.text = snapshot.data![index].email!;
+                                      addUpdateUser(
+                                        context,
+                                        'Update a User',
+                                        'Update',
+                                        fullname,
+                                        username,
+                                        password,
+                                        email,
+                                        (snapshot.data![index].gender ==
+                                                'Not Specified')
+                                            ? 'Gender'
+                                            : snapshot.data![index].gender,
+                                        snapshot.data![index].role!,
+                                      );
+                                    },
+                                    child: Icon(
+                                      Icons.edit,
+                                      color: Colors.blue[300],
+                                    ),
+                                  ),
                                   SizedBox(width: 10),
                                   Icon(Icons.delete, color: Colors.red[300]),
                                 ],
@@ -95,7 +128,23 @@ class _DashUsersPageState extends State<DashUsersPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => addUpdateUser(context, 'Add New User', 'Register'),
+        onPressed: () {
+          fullname.clear();
+          username.clear();
+          password.clear();
+          email.clear();
+          addUpdateUser(
+            context,
+            'Add New User',
+            'Register',
+            fullname,
+            username,
+            password,
+            email,
+            'Gender',
+            'Role',
+          );
+        },
         child: Icon(Icons.add),
       ),
     );
