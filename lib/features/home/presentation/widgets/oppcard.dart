@@ -6,6 +6,7 @@ import 'package:quickchance_app/features/home/data/models/opportunity_model.dart
 import 'package:quickchance_app/features/saved/data/datasources/remote/savedApiService.dart';
 import 'package:quickchance_app/features/saved/data/datasources/remote/savedSocketService.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:url_launcher/url_launcher.dart';
 
 class OppCard extends StatefulWidget {
   final OpportunityModel opps;
@@ -121,7 +122,7 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.opps.user.fullname!,
+                        widget.opps.user!.fullname!,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(
@@ -154,18 +155,48 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
             style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
           ),
           Text(widget.opps.description),
-          Row(
-            children: [
-              Text(
-                'Deadline:   ',
-                style: TextStyle(fontWeight: FontWeight.bold),
+          (widget.opps.deadline == null)
+              ? SizedBox.shrink()
+              : Row(
+                children: [
+                  Text(
+                    'Deadline:   ',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    widget.opps.deadline!.substring(0, 10),
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
-              Text(
-                widget.opps.deadline!.substring(0, 10),
-                style: TextStyle(fontWeight: FontWeight.bold),
+          (widget.opps.oppLink == null)
+              ? SizedBox.shrink()
+              : Row(
+                children: [
+                  Text(
+                    'Link:   ',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      final uri = Uri.parse(widget.opps.oppLink!);
+                      await launchUrl(
+                        uri,
+                        mode: LaunchMode.externalApplication,
+                      );
+                    },
+                    child: Text(
+                      widget.opps.oppLink!,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                        decorationColor: Colors.blue,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
           Row(
             children: [
               Text(
@@ -185,7 +216,7 @@ class _OppCardState extends State<OppCard> with AutomaticKeepAliveClientMixin {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
-                widget.opps.category.name,
+                widget.opps.category!.name,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ],

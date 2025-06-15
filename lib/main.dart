@@ -13,6 +13,9 @@ import 'package:quickchance_app/features/auth/presentation/bloc/auth_cubit.dart'
 import 'package:quickchance_app/features/auth/presentation/pages/forgot_password.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/login_page.dart';
 import 'package:quickchance_app/features/auth/presentation/pages/register_page.dart';
+import 'package:quickchance_app/features/dashboard/presentation/pages/dash_cat_page.dart';
+import 'package:quickchance_app/features/dashboard/presentation/pages/dash_opp_page.dart';
+import 'package:quickchance_app/features/dashboard/presentation/pages/dash_users_page.dart';
 import 'package:quickchance_app/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:quickchance_app/features/home/data/datasources/remote/opportunitySocketService.dart';
 import 'package:quickchance_app/features/home/data/repositories/opps_repo_impl.dart';
@@ -143,6 +146,21 @@ final GoRouter _router = GoRouter(
         final int oppId = int.parse(state.pathParameters['oppId']!);
         return CommentPage(oppId: oppId);
       },
+    ),
+    GoRoute(
+      name: 'dashUsersPage',
+      path: '/dashUsersPage',
+      builder: (context, state) => DashUsersPage(),
+    ),
+    GoRoute(
+      name: 'dashCatPage',
+      path: '/dashCatPage',
+      builder: (context, state) => DashCatPage(),
+    ),
+    GoRoute(
+      name: 'dashOppPage',
+      path: '/dashOppPage',
+      builder: (context, state) => DashOppPage(),
     ),
   ],
 );
