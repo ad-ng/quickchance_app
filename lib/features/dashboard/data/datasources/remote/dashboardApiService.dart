@@ -71,8 +71,37 @@ class DashboardApiService {
     try {
       final response = await _dio.post(
         '/opportunity',
+        data: opportunityModel.toJson(),
+      );
+      final dataJson = response.data;
+
+      return dataJson;
+    } on DioException catch (error) {
+      throw error.message!;
+    } catch (e) {
+      return new Future.error('error: ${e.toString()}');
+    }
+  }
+
+  Future updateOpportunity(OpportunityModel opportunityModel, int oppId) async {
+    try {
+      final response = await _dio.patch(
+        '/opportunity/$oppId',
         data: opportunityModel.toMap(),
       );
+      final dataJson = response.data;
+
+      return dataJson;
+    } on DioException catch (error) {
+      throw error.message!;
+    } catch (e) {
+      return new Future.error('error: ${e.toString()}');
+    }
+  }
+
+  Future deleteOpportunity(int oppId) async {
+    try {
+      final response = await _dio.delete('/opportunity/$oppId');
       final dataJson = response.data;
 
       return dataJson;
