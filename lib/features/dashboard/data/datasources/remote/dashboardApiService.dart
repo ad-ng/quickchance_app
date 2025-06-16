@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:quickchance_app/conf/dio/dioservice.dart';
 import 'package:quickchance_app/features/auth/data/model/user_model.dart';
+import 'package:quickchance_app/features/dashboard/data/models/addUserModel.dart';
 import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
 
 class DashboardApiService {
@@ -104,6 +105,51 @@ class DashboardApiService {
   Future deleteOpportunity(int oppId) async {
     try {
       final response = await _dio.delete('/opportunity/$oppId');
+      final dataJson = response.data;
+
+      return dataJson;
+    } on DioException catch (error) {
+      throw error.message!;
+    } catch (e) {
+      return new Future.error('error: ${e.toString()}');
+    }
+  }
+
+  Future addUser(AddUserModel addUserModel) async {
+    try {
+      final response = await _dio.post(
+        '/user/admin/add',
+        data: addUserModel.toMap(),
+      );
+      final dataJson = response.data;
+
+      return dataJson;
+    } on DioException catch (error) {
+      throw error.message!;
+    } catch (e) {
+      return new Future.error('error: ${e.toString()}');
+    }
+  }
+
+  Future updateUser(AddUserModel addUserModel, int userId) async {
+    try {
+      final response = await _dio.patch(
+        '/user/admin/$userId',
+        data: addUserModel.toMap(),
+      );
+      final dataJson = response.data;
+
+      return dataJson;
+    } on DioException catch (error) {
+      throw error.message!;
+    } catch (e) {
+      return new Future.error('error: ${e.toString()}');
+    }
+  }
+
+  Future deleteUser(int userId) async {
+    try {
+      final response = await _dio.delete('/user/admin/$userId');
       final dataJson = response.data;
 
       return dataJson;
