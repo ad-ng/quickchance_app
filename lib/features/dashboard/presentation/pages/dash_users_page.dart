@@ -128,6 +128,12 @@ class _DashUsersPageState extends State<DashUsersPage> {
                                                   ),
                                                   TextButton(
                                                     onPressed: () async {
+                                                      DashboardApiService()
+                                                          .deleteUser(
+                                                            snapshot
+                                                                .data![index]
+                                                                .id,
+                                                          );
                                                       Navigator.pop(context);
                                                     },
                                                     child: Text('Delete'),

@@ -146,4 +146,17 @@ class DashboardApiService {
       return new Future.error('error: ${e.toString()}');
     }
   }
+
+  Future deleteUser(int userId) async {
+    try {
+      final response = await _dio.delete('/user/admin/$userId');
+      final dataJson = response.data;
+
+      return dataJson;
+    } on DioException catch (error) {
+      throw error.message!;
+    } catch (e) {
+      return new Future.error('error: ${e.toString()}');
+    }
+  }
 }
