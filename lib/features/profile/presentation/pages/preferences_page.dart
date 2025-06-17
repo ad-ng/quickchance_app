@@ -128,7 +128,11 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                         ),
                                         SizedBox(width: 5),
                                         GestureDetector(
-                                          onTap: () {},
+                                          onTap:
+                                              () => ProfileApiService()
+                                                  .deletePreferences(
+                                                    preference.categoryId,
+                                                  ),
                                           child: Icon(
                                             Icons.cancel,
                                             color: Colors.blue,
