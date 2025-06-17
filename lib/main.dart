@@ -29,6 +29,7 @@ import 'package:quickchance_app/features/notifications/presentation/pages/notifi
 import 'package:quickchance_app/features/profile/presentation/bloc/profilecubit.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/changePassword.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/editProfile.dart';
+import 'package:quickchance_app/features/profile/presentation/pages/preferences_page.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/settingsPage.dart';
 import 'package:quickchance_app/features/search/data/repository/search_repo_impl.dart';
 import 'package:quickchance_app/features/search/presentation/bloc/search_cubit.dart';
@@ -113,6 +114,11 @@ final GoRouter _router = GoRouter(
       name: 'changePassword',
       path: '/changePassword',
       builder: (context, state) => ChangePassword(),
+    ),
+    GoRoute(
+      name: 'preferencesPage',
+      path: '/preferencesPage',
+      builder: (context, state) => PreferencesPage(),
     ),
     GoRoute(
       name: 'editProfile',
