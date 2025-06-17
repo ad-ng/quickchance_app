@@ -52,4 +52,19 @@ class ProfileApiService {
       return Future.error('Something went wrong: $e');
     }
   }
+
+  Future fetchPreferences() async {
+    try {
+      final response = await _dio.get('/interests');
+      final dataJson = response.data;
+
+      return dataJson;
+    } on DioException catch (e) {
+      // Handle Dio errors
+      throw e.message!;
+    } catch (e) {
+      // Catch other errors
+      return Future.error('Something went wrong: $e');
+    }
+  }
 }
