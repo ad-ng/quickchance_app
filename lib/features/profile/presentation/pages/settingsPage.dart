@@ -27,6 +27,12 @@ class _SettingsPageState extends State<SettingsPage> {
             trailing: Icon(Icons.chevron_right_rounded),
           ),
           ListTile(
+            onTap: () => context.pushNamed('preferencesPage'),
+            leading: Icon(Icons.category_sharp),
+            title: Text('Preferences', style: TextStyle(color: Colors.grey)),
+            trailing: Icon(Icons.chevron_right_rounded),
+          ),
+          ListTile(
             leading: Icon(Icons.notifications_none_rounded),
             title: Text('Notification', style: TextStyle(color: Colors.grey)),
             trailing: Switch(
