@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quickchance_app/features/profile/data/datasource/profileapiservice.dart';
 import 'package:quickchance_app/features/search/data/datasource/local/searchApiService.dart';
 
 class PreferencesPage extends StatefulWidget {
@@ -69,8 +70,16 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                             color: Colors.grey,
                                           ),
                                         ),
-                                        SizedBox(width: 4),
-                                        Icon(Icons.add, color: Colors.grey),
+                                        SizedBox(width: 5),
+                                        GestureDetector(
+                                          onTap:
+                                              () => ProfileApiService()
+                                                  .addPreferences(category.id),
+                                          child: Icon(
+                                            Icons.add,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -85,27 +94,57 @@ class _PreferencesPageState extends State<PreferencesPage> {
             ),
           ),
           Expanded(
-            child: Wrap(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.blueGrey),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'scholarship',
-                        style: TextStyle(fontSize: 16, color: Colors.grey),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: FutureBuilder(
+                future: ProfileApiService().fetchPreferences(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return SingleChildScrollView(
+                      child: Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children:
+                            snapshot.data!
+                                .map<Widget>(
+                                  (preference) => Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.blue),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 4,
+                                      horizontal: 8,
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          preference.category.name,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                        SizedBox(width: 5),
+                                        GestureDetector(
+                                          onTap: () {},
+                                          child: Icon(
+                                            Icons.cancel,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                                .toList(),
                       ),
-                      SizedBox(width: 4),
-                      Icon(Icons.cancel, color: Colors.grey),
-                    ],
-                  ),
-                ),
-              ],
+                    );
+                  }
+                  return Center(child: CircularProgressIndicator());
+                },
+              ),
             ),
           ),
         ],

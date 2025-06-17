@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickchance_app/conf/dio/dioservice.dart';
 import 'package:quickchance_app/features/auth/data/datasource/local/userpreferences.dart';
 import 'package:quickchance_app/features/auth/data/model/user_model.dart';
+import 'package:quickchance_app/features/profile/data/model/preference_model.dart';
 import 'package:quickchance_app/features/profile/data/model/updateUserModel.dart';
 import 'package:quickchance_app/features/profile/presentation/bloc/profilecubit.dart';
 
@@ -40,7 +41,10 @@ class ProfileApiService {
 
   Future addPreferences(categoryId) async {
     try {
-      final response = await _dio.post('/interests', data: {categoryId});
+      final response = await _dio.post(
+        '/interests',
+        data: {'categoryId': categoryId},
+      );
       final dataJson = response.data;
 
       return dataJson;
@@ -53,12 +57,18 @@ class ProfileApiService {
     }
   }
 
-  Future fetchPreferences() async {
+  Future<List<PreferenceModel>> fetchPreferences() async {
     try {
       final response = await _dio.get('/interests');
-      final dataJson = response.data;
+      final dataJson = response.data['data'];
 
-      return dataJson;
+      if (dataJson != null && dataJson is List) {
+        return dataJson.map((json) => PreferenceModel.fromMap(json)).toList();
+      } else {
+        throw Exception(
+          'Expected a list of properties but got ${dataJson.runtimeType}',
+        );
+      }
     } on DioException catch (e) {
       // Handle Dio errors
       throw e.message!;
