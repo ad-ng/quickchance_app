@@ -14,14 +14,12 @@ class NotificationApiService {
       if (dataJson != null && dataJson is List) {
         return dataJson.map((json) => UserNotification.fromMap(json)).toList();
       } else {
-        throw Exception(
-          'Expected a list of properties but got ${dataJson.runtimeType}',
-        );
+        throw Exception('Expected a list but got ${dataJson.runtimeType}');
       }
     } on DioException catch (e) {
       throw e.message.toString();
     } catch (e) {
-      return Future.error('something went wring: ${e.toString()}');
+      return Future.error('Something went wrong: ${e.toString()}');
     }
   }
 }

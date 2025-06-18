@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class EachNotificationModel {
   int? id;
@@ -8,6 +10,7 @@ class EachNotificationModel {
   String title;
   String body;
   String? createdAt;
+  OpportunityModel? opportunity;
   EachNotificationModel({
     this.id,
     this.opportunityId,
@@ -15,6 +18,7 @@ class EachNotificationModel {
     required this.title,
     required this.body,
     this.createdAt,
+    this.opportunity,
   });
 
   Map<String, dynamic> toMap() {
@@ -25,6 +29,7 @@ class EachNotificationModel {
       'title': title,
       'body': body,
       'createdAt': createdAt,
+      'opportunity': opportunity?.toMap(),
     };
   }
 
@@ -37,6 +42,12 @@ class EachNotificationModel {
       title: map['title'] as String,
       body: map['body'] as String,
       createdAt: map['createdAt'] != null ? map['createdAt'] as String : null,
+      opportunity:
+          map['opportunity'] != null && map['opportunity'] is Map
+              ? OpportunityModel.fromMap(
+                Map<String, dynamic>.from(map['opportunity']),
+              )
+              : null,
     );
   }
 
