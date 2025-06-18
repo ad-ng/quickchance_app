@@ -26,6 +26,8 @@ import 'package:quickchance_app/features/home/presentation/pages/landing_page.da
 import 'package:quickchance_app/features/notifications/data/datasources/remote/notificationApiService.dart';
 import 'package:quickchance_app/features/notifications/presentation/bloc/eachNotificationCubit.dart';
 import 'package:quickchance_app/features/notifications/presentation/pages/notification_page.dart';
+import 'package:quickchance_app/features/profile/data/repository/profile_repo_impl.dart';
+import 'package:quickchance_app/features/profile/presentation/bloc/preferencescubit.dart';
 import 'package:quickchance_app/features/profile/presentation/bloc/profilecubit.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/changePassword.dart';
 import 'package:quickchance_app/features/profile/presentation/pages/editProfile.dart';
@@ -52,6 +54,7 @@ class MyApp extends StatelessWidget {
   final socketService = OpportunitySocketService();
   final _userPreferences = UserPreferences();
   final _notificationApiService = NotificationApiService();
+  final profileRepo = ProfileRepoImpl();
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -62,6 +65,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SearchCubit(searchRepo)),
         BlocProvider(create: (context) => CommentCubit(oppsRepo)),
         BlocProvider(create: (context) => ProfileCubit(_userPreferences)),
+        BlocProvider(create: (context) => PreferencesCubit(profileRepo)),
         BlocProvider(
           create: (context) => EachNotificationCubit(_notificationApiService),
         ),

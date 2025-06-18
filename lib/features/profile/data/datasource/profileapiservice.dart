@@ -6,6 +6,7 @@ import 'package:quickchance_app/features/auth/data/datasource/local/userpreferen
 import 'package:quickchance_app/features/auth/data/model/user_model.dart';
 import 'package:quickchance_app/features/profile/data/model/preference_model.dart';
 import 'package:quickchance_app/features/profile/data/model/updateUserModel.dart';
+import 'package:quickchance_app/features/profile/presentation/bloc/preferencescubit.dart';
 import 'package:quickchance_app/features/profile/presentation/bloc/profilecubit.dart';
 
 class ProfileApiService {
@@ -39,13 +40,14 @@ class ProfileApiService {
     }
   }
 
-  Future addPreferences(categoryId) async {
+  Future addPreferences(categoryId, BuildContext context) async {
     try {
       final response = await _dio.post(
         '/interests',
         data: {'categoryId': categoryId},
       );
       final dataJson = response.data;
+      BlocProvider.of<PreferencesCubit>(context).getPreferences();
 
       return dataJson;
     } on DioException catch (e) {
@@ -57,13 +59,14 @@ class ProfileApiService {
     }
   }
 
-  Future deletePreferences(categoryId) async {
+  Future deletePreferences(categoryId, BuildContext context) async {
     try {
       final response = await _dio.delete(
         '/interests',
         data: {'categoryId': categoryId},
       );
       final dataJson = response.data;
+      BlocProvider.of<PreferencesCubit>(context).getPreferences();
 
       return dataJson;
     } on DioException catch (e) {

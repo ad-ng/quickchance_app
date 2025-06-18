@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickchance_app/features/profile/data/datasource/profileapiservice.dart';
-import 'package:quickchance_app/features/search/data/datasource/local/searchApiService.dart';
+import 'package:quickchance_app/features/profile/presentation/bloc/preferencescubit.dart';
 
 class PreferencesPage extends StatefulWidget {
   const PreferencesPage({super.key});
@@ -36,18 +37,21 @@ class _PreferencesPageState extends State<PreferencesPage> {
             ),
           ),
           Expanded(
+            flex: 2,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: FutureBuilder(
-                future: SearchApiService().fetchAllCategories(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: BlocBuilder<PreferencesCubit, PreferencesState>(
+                builder: (context, state) {
+                  if (state is PreferencesLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (state is PreferencesSuccess) {
                     return SingleChildScrollView(
                       child: Wrap(
                         spacing: 8,
                         runSpacing: 8,
                         children:
-                            snapshot.data!
+                            state.results
                                 .map<Widget>(
                                   (category) => Container(
                                     decoration: BoxDecoration(
@@ -74,7 +78,10 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                         GestureDetector(
                                           onTap:
                                               () => ProfileApiService()
-                                                  .addPreferences(category.id),
+                                                  .addPreferences(
+                                                    category.id,
+                                                    context,
+                                                  ),
                                           child: Icon(
                                             Icons.add,
                                             color: Colors.grey,
@@ -88,24 +95,27 @@ class _PreferencesPageState extends State<PreferencesPage> {
                       ),
                     );
                   }
-                  return Center(child: CircularProgressIndicator());
+                  return SizedBox.shrink();
                 },
               ),
             ),
           ),
           Expanded(
+            flex: 4,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: FutureBuilder(
-                future: ProfileApiService().fetchPreferences(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
+              child: BlocBuilder<PreferencesCubit, PreferencesState>(
+                builder: (context, state) {
+                  if (state is PreferencesLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (state is PreferencesSuccess) {
                     return SingleChildScrollView(
                       child: Wrap(
                         spacing: 8,
                         runSpacing: 8,
                         children:
-                            snapshot.data!
+                            state.response
                                 .map<Widget>(
                                   (preference) => Container(
                                     decoration: BoxDecoration(
@@ -132,6 +142,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                               () => ProfileApiService()
                                                   .deletePreferences(
                                                     preference.categoryId,
+                                                    context,
                                                   ),
                                           child: Icon(
                                             Icons.cancel,
@@ -146,7 +157,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
                       ),
                     );
                   }
-                  return Center(child: CircularProgressIndicator());
+                  return SizedBox.shrink();
                 },
               ),
             ),
