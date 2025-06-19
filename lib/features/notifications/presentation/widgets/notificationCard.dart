@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:quickchance_app/features/notifications/data/models/userNotification.dart';
 
 class Notificationcard extends StatelessWidget {
@@ -11,6 +12,39 @@ class Notificationcard extends StatelessWidget {
       padding: const EdgeInsets.only(left: 8, right: 8, bottom: 4),
       child: Card(
         child: ListTile(
+          onTap: () {
+            if (userNotification.notification.opportunityId != null) {
+              context.pushNamed(
+                'OppPage',
+                extra: userNotification.notification.opportunity,
+              );
+            } else {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text(userNotification.notification.title),
+                    content: Text(userNotification.notification.body),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          
+                          Navigator.pop(context);
+                        },
+                        child: Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('Delete'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          },
           title: Text(userNotification.notification.title),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

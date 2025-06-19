@@ -18,6 +18,7 @@ import 'package:quickchance_app/features/dashboard/presentation/pages/dash_opp_p
 import 'package:quickchance_app/features/dashboard/presentation/pages/dash_users_page.dart';
 import 'package:quickchance_app/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:quickchance_app/features/home/data/datasources/remote/opportunitySocketService.dart';
+import 'package:quickchance_app/features/home/data/models/opportunity_model.dart';
 import 'package:quickchance_app/features/home/data/repositories/opps_repo_impl.dart';
 import 'package:quickchance_app/features/home/presentation/bloc/commentCubit.dart';
 import 'package:quickchance_app/features/home/presentation/bloc/opportunity_cubit.dart';
@@ -26,6 +27,7 @@ import 'package:quickchance_app/features/home/presentation/pages/landing_page.da
 import 'package:quickchance_app/features/notifications/data/datasources/remote/notificationApiService.dart';
 import 'package:quickchance_app/features/notifications/presentation/bloc/eachNotificationCubit.dart';
 import 'package:quickchance_app/features/notifications/presentation/pages/notification_page.dart';
+import 'package:quickchance_app/features/notifications/presentation/pages/oppPage.dart';
 import 'package:quickchance_app/features/profile/data/repository/profile_repo_impl.dart';
 import 'package:quickchance_app/features/profile/presentation/bloc/preferencescubit.dart';
 import 'package:quickchance_app/features/profile/presentation/bloc/profilecubit.dart';
@@ -171,6 +173,14 @@ final GoRouter _router = GoRouter(
       name: 'dashOppPage',
       path: '/dashOppPage',
       builder: (context, state) => DashOppPage(),
+    ),
+    GoRoute(
+      name: 'OppPage',
+      path: '/OppPage',
+      builder: (context, state) {
+        final opp = state.extra as OpportunityModel;
+        return OppPage(opportunityModel: opp);
+      },
     ),
   ],
 );
